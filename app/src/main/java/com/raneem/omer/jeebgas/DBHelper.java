@@ -24,6 +24,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     // the Client unquie ID
     private static String ClientID = mDataBaseRef.child("Client").push().getKey();
+    private static String DriverID;//(TODO) need to get the driver id from Firebase to mark his orders
 
     private static final String NAME = "name";
     private static final String ADDRESS = "address";
@@ -268,6 +269,24 @@ public class DBHelper extends SQLiteOpenHelper {
             contentValues.put(SERVICETYPE_REPAIR, repair);
             contentValues.put(DRIVER_RATING, rating);
             db.insert(TABLE_ORDER, null, contentValues);
+
+            //Save in firebase order/driver info
+            Map<String, String> FBmap = new HashMap<String, String>();
+            FBmap.put("ClientID",ClientID);
+            FBmap.put("DRIVERNAME",name);
+            FBmap.put("DRIVERPHONE",phone);
+            FBmap.put("WORKINGAREA",workingArea);
+            FBmap.put("WORKINGHOURSFROM",hours_from);
+            FBmap.put("WORKINGHOURSTILL",hours_till);
+            String Dstr = String.valueOf(deliver);
+            String Rstr = String.valueOf(repair);
+            FBmap.put("DELIVER",Dstr);
+            FBmap.put("REPAIR",Rstr);
+
+
+            // Save the Order info + the Driver info the order is from
+            mDataBaseRef.child("Orders").child(DriverID).setValue(FBmap);
+
             return true;
         } catch( Exception e) {
             return false;

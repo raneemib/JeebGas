@@ -13,13 +13,26 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.firebase.client.Firebase;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class PressJeebGasButton extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private ListView lv;
     private DBHelper db; // DBHelper objecr
     private DriversListAdapter driversListAdapter;
+
+    private Map<String, Map<String, String>> drivers_hashmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +48,33 @@ public class PressJeebGasButton extends AppCompatActivity implements AdapterView
         lv.setAdapter(driversListAdapter);
         lv.setOnItemClickListener(this);
 
+
+
+
+        final DatabaseReference firebaseRef_Driver =  FirebaseDatabase.getInstance().getReference().child("Driver");
+        drivers_hashmap = new HashMap<>();
+        firebaseRef_Driver.addValueEventListener(new com.google.firebase.database.ValueEventListener() {
+            @Override
+            public void onDataChange(com.google.firebase.database.DataSnapshot dataSnapshot) {
+                Log.d("Snapshot", dataSnapshot.toString());
+                drivers_hashmap = (Map<String, Map<String, String>>) dataSnapshot.getValue();
+
+                Set<String> keys = drivers_hashmap.keySet();
+                for (String i : keys) {
+                    // TODO add all other info and input in sqlite
+                    String gasBig = drivers_hashmap.get(i).get("GASBIG");
+                    Log.d("Key",i + "  " + gasBig);
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+                Log.d("Firebase Error", databaseError.toString());
+            }
+        });
 
     }
 

@@ -7,13 +7,23 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.ContactsContract;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 11;
+    private static final DatabaseReference mDataBaseRef = FirebaseDatabase.getInstance().getReference();
+    private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "jeebGas";
     private static final String TABLE_CLIENT = "Client";
     public static final String TABLE_ORDER = "_Order";
+
+    // the Client unquie ID
+    private static String ClientID = mDataBaseRef.child("Client").push().getKey();
 
     private static final String NAME = "name";
     private static final String ADDRESS = "address";
@@ -98,6 +108,16 @@ public class DBHelper extends SQLiteOpenHelper {
             contentValues.put(ADDRESS, jeebgasclient.getAddress());
             contentValues.put(PHONE, jeebgasclient.getPhone());
             db.insert(TABLE_CLIENT, null, contentValues);
+
+
+            //Save in firebase
+            Map<String, String> FBmap = new HashMap<String, String>();
+            FBmap.put("NAME",jeebgasclient.getName());
+            FBmap.put("ADDRESS",jeebgasclient.getAddress());
+            FBmap.put("PHONE",jeebgasclient.getPhone());
+
+            mDataBaseRef.child("Client").child(ClientID).setValue(FBmap);
+
             return true;
         } catch (Exception e) {
 

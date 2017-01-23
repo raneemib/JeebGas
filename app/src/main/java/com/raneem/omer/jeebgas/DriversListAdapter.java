@@ -47,7 +47,7 @@ public class DriversListAdapter extends CursorAdapter {
         String from = cursor.getString(hoursIndex_from);
         String till = cursor.getString(hoursIndex_till);
 
-        Log.d("name", name);
+        Log.d("name", "  " + name);
 
         driver_nameTV.setText(name);
         driver_locationTV.setText(area);

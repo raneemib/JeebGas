@@ -215,13 +215,14 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     // this is the mocked data DELETE WHEN NOT NEEDED
-    public boolean insertDriver_mock(String name, String phone, String workingArea, String workingHours_from, String workingHours_till,
+    public boolean insertDriver_mock(String driverid,String name, String phone, String workingArea, String workingHours_from, String workingHours_till,
                                      int gasPrice_small, int gasPrice_big, int serviceType_deliver, int serviceType_repair, float rating) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
         try {
+            contentValues.put(DRIVERID, driverid);
             contentValues.put(DRIVERNAME, name);
             contentValues.put(DRIVERPHONE, phone);
             contentValues.put(WORKINGAREA, workingArea);

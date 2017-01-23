@@ -17,20 +17,21 @@ import java.util.Map;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final DatabaseReference mDataBaseRef = FirebaseDatabase.getInstance().getReference();
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "jeebGas";
     private static final String TABLE_CLIENT = "Client";
     public static final String TABLE_ORDER = "_Order";
 
     // the Client unquie ID
     private static String ClientID = mDataBaseRef.child("Client").push().getKey();
-    private static String DriverID;//(TODO) need to get the driver id from Firebase to mark his orders
+   // private static String DriverID;//(TODO) need to get the driver id from Firebase to mark his orders
 
     private static final String NAME = "name";
     private static final String ADDRESS = "address";
     private static final String PHONE = "phone";
 
     private static final String TABLE_DRIVER = "Driver";
+    private static final String DRIVERID = "driverid";
     private static final String DRIVERNAME = "drivername";
     private static final String DRIVERPHONE = "driverphone";
     private static final String WORKINGAREA = "workingarea";
@@ -51,6 +52,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private String CREATE_DRIVER_TABLE = "create table if not exists " + TABLE_DRIVER +
             " (_id integer primary key AUTOINCREMENT, "
+            + DRIVERID + " text, " // added for the unquie id in the firebase
             + DRIVERNAME + " text, "
             + DRIVERPHONE + " integer, "
             + WORKINGAREA + " text, "
@@ -64,6 +66,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private String CREATE_ORDER_TABLE = "create table if not exists " + TABLE_ORDER +
             " (_id integer primary key AUTOINCREMENT, "
+            + DRIVERID + " text, " // added for the unquie id in the firebase
             + DRIVERNAME + " text, "
             + DRIVERPHONE + " integer, "
             + WORKINGAREA + " text, "
@@ -211,6 +214,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    // this is the mocked data DELETE WHEN NOT NEEDED
     public boolean insertDriver_mock(String name, String phone, String workingArea, String workingHours_from, String workingHours_till,
                                      int gasPrice_small, int gasPrice_big, int serviceType_deliver, int serviceType_repair, float rating) {
 
@@ -236,6 +240,34 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    // insert data from firebase to sqlite
+    public boolean insertDriver(String driverid,String name, String phone, String workingArea, String workingHours_from, String workingHours_till,
+                                     int gasPrice_small, int gasPrice_big, int serviceType_deliver, int serviceType_repair, float rating)
+    {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        try {
+            contentValues.put(DRIVERID, driverid);
+            contentValues.put(DRIVERNAME, name);
+            contentValues.put(DRIVERPHONE, phone);
+            contentValues.put(WORKINGAREA, workingArea);
+            contentValues.put(WORKINGHOURS_FROM, workingHours_from);
+            contentValues.put(WORKINGHOURS_TILL, workingHours_till);
+            contentValues.put(GASPRICE_SMALL, gasPrice_small);
+            contentValues.put(GASPRICE_BIG, gasPrice_big);
+            contentValues.put(SERVICETYPE_DELIVER, serviceType_deliver);
+            contentValues.put(SERVICETYPE_REPAIR, serviceType_repair);
+            contentValues.put(DRIVER_RATING, rating);//TODO DISABLE RATING TO AVOID SHAMING
+            db.insert(TABLE_DRIVER, null, contentValues);
+            return true;
+        } catch (Exception e) {
+
+            return false;
+        }
+    }
+
     //empty the current order
     public boolean empty_OrderTable() {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -252,13 +284,14 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     //fill the new order aftr pressing ordernow
-    public boolean insertOrder(String name, String phone, String workingArea, String hours_from, String hours_till, int order_price, int deliver,
+    public boolean insertOrder(String driverid,String name, String phone, String workingArea, String hours_from, String hours_till, int order_price, int deliver,
                               int repair, float rating) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         try {
-
+            if(!driverid.isEmpty()) //some times we need to insert null to just save the other data
+                contentValues.put(DRIVERID, driverid);
             contentValues.put(DRIVERNAME, name);
             contentValues.put(DRIVERPHONE, phone);
             contentValues.put(WORKINGAREA, workingArea);
@@ -267,7 +300,7 @@ public class DBHelper extends SQLiteOpenHelper {
             contentValues.put(GASPRICE, order_price);
             contentValues.put(SERVICETYPE_DELIVER, deliver);
             contentValues.put(SERVICETYPE_REPAIR, repair);
-            contentValues.put(DRIVER_RATING, rating);
+            contentValues.put(DRIVER_RATING, rating);//TODO DISABLE RATING TO AVOID SHAMING
             db.insert(TABLE_ORDER, null, contentValues);
 
             //Save in firebase order/driver info
@@ -285,7 +318,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
             // Save the Order info + the Driver info the order is from
-            mDataBaseRef.child("Orders").child(DriverID).setValue(FBmap);
+            mDataBaseRef.child("Orders").child(driverid).setValue(FBmap);
 
             return true;
         } catch( Exception e) {

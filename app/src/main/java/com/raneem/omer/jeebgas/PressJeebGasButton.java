@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.sql.Driver;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,15 +43,11 @@ public class PressJeebGasButton extends AppCompatActivity implements AdapterView
         lv = (ListView) findViewById(R.id.listView);
         db = new DBHelper(getApplicationContext()); // initialize DBHelper object
 
-        //show drivers names in the list view
-        Cursor c = db.getDriversList();
-        driversListAdapter = new DriversListAdapter(getApplicationContext(), c);
-        lv.setAdapter(driversListAdapter);
-        lv.setOnItemClickListener(this);
 
 
 
 
+        //FireBase
         final DatabaseReference firebaseRef_Driver =  FirebaseDatabase.getInstance().getReference().child("Driver");
         drivers_hashmap = new HashMap<>();
         firebaseRef_Driver.addValueEventListener(new com.google.firebase.database.ValueEventListener() {
@@ -61,9 +58,37 @@ public class PressJeebGasButton extends AppCompatActivity implements AdapterView
 
                 Set<String> keys = drivers_hashmap.keySet();
                 for (String i : keys) {
-                    // TODO add all other info and input in sqlite
-                    String gasBig = drivers_hashmap.get(i).get("GASBIG");
-                    Log.d("Key",i + "  " + gasBig);
+
+                    String driverid = i;
+                    String drivername = drivers_hashmap.get(i).get("DRIVERNAME");
+                    String driverphone = drivers_hashmap.get(i).get("DRIVERPHONE");
+                    String workingarea = drivers_hashmap.get(i).get("WORKINGAREA");
+                    String workinghoursfrom = drivers_hashmap.get(i).get("WORKINGHOURSFROM");
+                    String workinghourstill = drivers_hashmap.get(i).get("WORKINGHOURSTILL");
+
+                    // int deliver = Integer.parseInt(drivers_hashmap.get(i).get("DELIVER"));
+                    // String repair = drivers_hashmap.get(i).get("REPAIR");
+                    // String gassmall = drivers_hashmap.get(i).get("GASSMALL");
+                    // String gasbig = drivers_hashmap.get(i).get("GASBIG");
+                    /*
+                    int deliverINT = 0;
+                    int repairINT = 0;
+                    int gassmallINT = 0;
+                    int gasbigINT = 0;
+                    Log.d("Key",i + "  " + drivername);
+
+
+                    try {
+                        deliverINT = Integer.parseInt(deliver);
+                        repairINT = Integer.parseInt(repair);
+                        gassmallINT = Integer.parseInt(gassmall);
+                        gasbigINT = Integer.parseInt(gasbig);
+
+                    } catch(NumberFormatException nfe) {
+                        Log.e("JeebGasButton.onCreate",i + "  " + drivername);
+                    }*/
+                    db.insertDriver( driverid, drivername, driverphone, workingarea, workinghoursfrom, workinghourstill,
+                            10, 20, 0, 1,0);//TODO Disable Rating to Avoid Shaming
 
                 }
 
@@ -75,6 +100,17 @@ public class PressJeebGasButton extends AppCompatActivity implements AdapterView
                 Log.d("Firebase Error", databaseError.toString());
             }
         });
+        // Firebase END
+
+
+
+        //show drivers names in the list view
+        Cursor c = db.getDriversList();
+        driversListAdapter = new DriversListAdapter(getApplicationContext(), c);
+        lv.setAdapter(driversListAdapter);
+        lv.setOnItemClickListener(this);
+
+
 
     }
 

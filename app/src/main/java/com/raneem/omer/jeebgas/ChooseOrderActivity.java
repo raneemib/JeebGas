@@ -104,7 +104,8 @@ public class ChooseOrderActivity extends AppCompatActivity {
 
     public void ClickOrderNow(View v) {
         db.empty_OrderTable();
-        db.insertOrder(name, phone, area, workingfrom, workingtill, gassmall, deliver, repair, rating);
+        // driverid is null to avoid changing or deleting it instead we skip it.
+        db.insertOrder("",name, phone, area, workingfrom, workingtill, gassmall, deliver, repair, rating);
         Intent ordernowclicked = new Intent(this, PressOrderStatus.class);
         startActivity(ordernowclicked);
         finish();

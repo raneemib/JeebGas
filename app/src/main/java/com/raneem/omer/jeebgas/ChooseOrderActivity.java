@@ -104,8 +104,12 @@ public class ChooseOrderActivity extends AppCompatActivity {
 
     public void ClickOrderNow(View v) {
         db.empty_OrderTable();
+        Intent intent = getIntent();
+        Long id = intent.getLongExtra("id", -1);
+        String driverid = db.getDriver(id).toString();
+        Log.d("Order Now", id + "");
         // driverid is null to avoid changing or deleting it instead we skip it.
-        db.insertOrder("",name, phone, area, workingfrom, workingtill, gassmall, deliver, repair, rating);
+        db.insertOrder(driverid,name, phone, area, workingfrom, workingtill, gassmall, deliver, repair, rating);
         Intent ordernowclicked = new Intent(this, PressOrderStatus.class);
         startActivity(ordernowclicked);
         finish();

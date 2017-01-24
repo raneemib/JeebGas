@@ -285,14 +285,14 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     //fill the new order aftr pressing ordernow
-    public boolean insertOrder(String driverid,String name, String phone, String workingArea, String hours_from, String hours_till, int order_price, int deliver,
+    public boolean insertOrder(String driverId,String name, String phone, String workingArea, String hours_from, String hours_till, int order_price, int deliver,
                               int repair, float rating) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         try {
-            if(!driverid.isEmpty()) //some times we need to insert null to just save the other data
-                contentValues.put(DRIVERID, driverid);
+            if(!driverId.isEmpty()) //some times we need to insert null to just save the other data
+                contentValues.put(DRIVERID, driverId);
             contentValues.put(DRIVERNAME, name);
             contentValues.put(DRIVERPHONE, phone);
             contentValues.put(WORKINGAREA, workingArea);
@@ -306,7 +306,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
             //Save in firebase order/driver info
             Map<String, String> FBmap = new HashMap<String, String>();
-            FBmap.put("ClientID",ClientID);
+          //  FBmap.put("ClientID",ClientID);
             FBmap.put("DRIVERNAME",name);
             FBmap.put("DRIVERPHONE",phone);
             FBmap.put("WORKINGAREA",workingArea);
@@ -319,7 +319,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
             // Save the Order info + the Driver info the order is from
-            mDataBaseRef.child("Orders").child(driverid).setValue(FBmap);
+            mDataBaseRef.child("Orders").child(driverId).child(ClientID).setValue(FBmap);
 
             return true;
         } catch( Exception e) {

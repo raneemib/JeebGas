@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.ContactsContract;
+import android.util.Log;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -17,13 +18,13 @@ import java.util.Map;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final DatabaseReference mDataBaseRef = FirebaseDatabase.getInstance().getReference();
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "jeebGas";
     private static final String TABLE_CLIENT = "Client";
     public static final String TABLE_ORDER = "_Order";
 
     // the Client unquie ID
-    private static String ClientID = mDataBaseRef.child("Client").push().getKey();
+    private static String ClientID;
    // private static String DriverID;//(TODO) need to get the driver id from Firebase to mark his orders
 
     private static final String NAME = "name";
@@ -46,6 +47,9 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String SERVICETYPE_REPAIR = "servicetype_repair";
     private static final String DRIVER_RATING = "rating";
 
+    private static final String TABLE_CLIENTID = "_ClientID";
+    private static final String CLIENT_ID =  "Client_ID";
+
 
     private String CREATE_ACCOUNT_TABLE = "create table if not exists " + TABLE_CLIENT +
             " (_id integer primary key AUTOINCREMENT, " + NAME + " text, " + ADDRESS + " text, " + PHONE + " integer)";
@@ -64,6 +68,10 @@ public class DBHelper extends SQLiteOpenHelper {
             + SERVICETYPE_DELIVER + " integer, "
             + SERVICETYPE_REPAIR + " integer)";
 
+    private String CREATE_KEY_TABLE = "create table if not exists " + TABLE_CLIENTID
+            + " (_id integer primary key AUTOINCREMENT, "
+            + CLIENT_ID + " text)";
+
     private String CREATE_ORDER_TABLE = "create table if not exists " + TABLE_ORDER +
             " (_id integer primary key AUTOINCREMENT, "
             + DRIVERID + " text, " // added for the unquie id in the firebase
@@ -80,6 +88,19 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        /**TODO
+         * 1- Check if the driver has his own key in the database
+         * 2- If the driver doesnt have any key => create a key, insert into database, assign the variable to this key
+         * 3- If the driver does have a key => assign the variable to this key
+         */
+
+        Cursor c = getClientID();
+        if(c != null && c.getCount() > 0) {
+            int clientID_Index = c.getColumnIndex(CLIENT_ID);
+            ClientID = c.getString(clientID_Index);
+        } else {
+            insertClientID();
+        }
     }
 
     @Override
@@ -87,6 +108,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_ACCOUNT_TABLE);
         db.execSQL(CREATE_DRIVER_TABLE);
         db.execSQL(CREATE_ORDER_TABLE);
+        db.execSQL(CREATE_KEY_TABLE);
     }
 
     @Override
@@ -94,10 +116,41 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CLIENT);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DRIVER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORDER);
+        db.execSQL("DROP TABLE IF EXISTS '" + TABLE_CLIENTID + "';");
         db.execSQL(CREATE_ACCOUNT_TABLE);
         db.execSQL(CREATE_DRIVER_TABLE);
         db.execSQL(CREATE_ORDER_TABLE);
+        db.execSQL(CREATE_KEY_TABLE);
     }
+
+
+    public boolean insertClientID() {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        try {
+            String ClientID = mDataBaseRef.child("Driver").push().getKey();
+            Log.d("ClientID", ClientID);
+            contentValues.put(CLIENT_ID, ClientID);
+            db.insert(TABLE_CLIENTID, null, contentValues);
+            return true;
+        } catch (Exception e) {
+            Log.e("InsertDriverID", e.toString());
+            return false;
+        }
+    }
+
+    public Cursor getClientID() {
+
+        String selectQuery = "SELECT * FROM " + TABLE_CLIENTID + " LIMIT 1;";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        cursor.moveToFirst();
+        return cursor;
+    }
+
+
 
     public boolean insertClient(JeebGasClient jeebgasclient) {
 

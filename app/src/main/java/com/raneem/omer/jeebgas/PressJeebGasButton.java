@@ -66,29 +66,20 @@ public class PressJeebGasButton extends AppCompatActivity implements AdapterView
                     String workinghoursfrom = drivers_hashmap.get(i).get("WORKINGHOURSFROM");
                     String workinghourstill = drivers_hashmap.get(i).get("WORKINGHOURSTILL");
 
-                    // int deliver = Integer.parseInt(drivers_hashmap.get(i).get("DELIVER"));
-                    // String repair = drivers_hashmap.get(i).get("REPAIR");
-                    // String gassmall = drivers_hashmap.get(i).get("GASSMALL");
-                    // String gasbig = drivers_hashmap.get(i).get("GASBIG");
-                    /*
-                    int deliverINT = 0;
-                    int repairINT = 0;
-                    int gassmallINT = 0;
-                    int gasbigINT = 0;
-                    Log.d("Key",i + "  " + drivername);
-
 
                     try {
-                        deliverINT = Integer.parseInt(deliver);
-                        repairINT = Integer.parseInt(repair);
-                        gassmallINT = Integer.parseInt(gassmall);
-                        gasbigINT = Integer.parseInt(gasbig);
+                        int deliver = Integer.parseInt(drivers_hashmap.get(i).get("DELIVER"));
+                        int repair = Integer.parseInt(drivers_hashmap.get(i).get("REPAIR"));
+                        int gassmall = Integer.parseInt(drivers_hashmap.get(i).get("GASSMALL"));
+                        int gasbig = Integer.parseInt(drivers_hashmap.get(i).get("GASBIG"));
+
+                        db.insertDriver( driverid, drivername, driverphone, workingarea, workinghoursfrom, workinghourstill,
+                                gassmall, gasbig, deliver, repair,0);  //TODO Disable Rating to Avoid Shaming
 
                     } catch(NumberFormatException nfe) {
-                        Log.e("JeebGasButton.onCreate",i + "  " + drivername);
-                    }*/
-                    db.insertDriver( driverid, drivername, driverphone, workingarea, workinghoursfrom, workinghourstill,
-                            10, 20, 0, 1,0);//TODO Disable Rating to Avoid Shaming
+                    Log.e("JeebGasButton.onCreate",i + "  " + drivername);
+                    }
+
 
                 }
 

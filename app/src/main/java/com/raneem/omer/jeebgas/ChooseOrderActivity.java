@@ -14,6 +14,7 @@ public class ChooseOrderActivity extends AppCompatActivity {
 
     DBHelper db;
 
+    private String driverid;
     private String name;
     private String phone;
     private String area;
@@ -50,6 +51,7 @@ public class ChooseOrderActivity extends AppCompatActivity {
             + SERVICETYPE_DELIVER + " integer, "
             + SERVICETYPE_REPAIR + " integer)";
              */
+            int driverid_index = c.getColumnIndex("driverid"); // doesnt display
             int name_index = c.getColumnIndex("drivername");
             int phone_index = c.getColumnIndex("driverphone");
             int area_index = c.getColumnIndex("workingarea");
@@ -61,6 +63,7 @@ public class ChooseOrderActivity extends AppCompatActivity {
             int repair_index = c.getColumnIndex("servicetype_repair");
             int rating_index = c.getColumnIndex("rating");
 
+            driverid = c.getString(driverid_index); // doesnt display
             name = c.getString(name_index);
             phone = c.getString(phone_index);
             area = c.getString(area_index);
@@ -73,6 +76,7 @@ public class ChooseOrderActivity extends AppCompatActivity {
             rating = c.getFloat(rating_index);
             service = "";
 
+            Log.d("DriverID ",driverid);
             Log.d("name", name);
             Log.d("phone", phone);
             Log.d("deliver", deliver + "");
@@ -104,12 +108,9 @@ public class ChooseOrderActivity extends AppCompatActivity {
 
     public void ClickOrderNow(View v) {
         db.empty_OrderTable();
-        Intent intent = getIntent();
-        Long id = intent.getLongExtra("id", -1);
-        String driverid = db.getDriver(id).toString();
-        Log.d("Order Now", id + "");
+        Log.d("Order Now  ", driverid + "");
         // driverid is null to avoid changing or deleting it instead we skip it.
-        db.insertOrder(driverid,name, phone, area, workingfrom, workingtill, gassmall, deliver, repair, rating);
+        db.insertOrder( driverid, name, phone, area, workingfrom, workingtill, gassmall, deliver, repair, rating);
         Intent ordernowclicked = new Intent(this, PressOrderStatus.class);
         startActivity(ordernowclicked);
         finish();

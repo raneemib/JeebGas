@@ -45,8 +45,6 @@ public class PressJeebGasButton extends AppCompatActivity implements AdapterView
 
 
 
-
-
         //FireBase
         final DatabaseReference firebaseRef_Driver =  FirebaseDatabase.getInstance().getReference().child("Driver");
         drivers_hashmap = new HashMap<>();

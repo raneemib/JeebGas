@@ -18,7 +18,7 @@ import java.util.Map;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final DatabaseReference mDataBaseRef = FirebaseDatabase.getInstance().getReference();
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "jeebGas";
     private static final String TABLE_CLIENT = "Client";
     public static final String TABLE_ORDER = "_Order";
@@ -56,7 +56,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private String CREATE_DRIVER_TABLE = "create table if not exists " + TABLE_DRIVER +
             " (_id integer primary key AUTOINCREMENT, "
-            + DRIVERID + " text, " // added for the unquie id in the firebase
+            + DRIVERID + " text unique, " // added for the unquie id in the firebase
             + DRIVERNAME + " text, "
             + DRIVERPHONE + " integer, "
             + WORKINGAREA + " text, "
@@ -74,7 +74,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private String CREATE_ORDER_TABLE = "create table if not exists " + TABLE_ORDER +
             " (_id integer primary key AUTOINCREMENT, "
-            + DRIVERID + " text, " // added for the unquie id in the firebase
+            + DRIVERID + " text unique, " // added for the unquie id in the firebase
             + DRIVERNAME + " text, "
             + DRIVERPHONE + " integer, "
             + WORKINGAREA + " text, "

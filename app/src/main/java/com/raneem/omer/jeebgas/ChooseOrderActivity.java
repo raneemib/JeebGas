@@ -62,25 +62,25 @@ public class ChooseOrderActivity extends AppCompatActivity {
             int deliver_index = c.getColumnIndex("servicetype_deliver");
             int repair_index = c.getColumnIndex("servicetype_repair");
             int rating_index = c.getColumnIndex("rating");
-
-            driverid = c.getString(driverid_index); // doesnt display
-            name = c.getString(name_index);
-            phone = c.getString(phone_index);
-            area = c.getString(area_index);
-            workingfrom = c.getString(workingfromIndex);
-            workingtill = c.getString(workingtill_index);
-            gassmall = c.getInt(gassmall_index);
-            gasbig = c.getInt(gasbig_index);
-            deliver = c.getInt(deliver_index);
-            repair = c.getInt(repair_index);
-            rating = c.getFloat(rating_index);
-            service = "";
+            if( c != null && c.moveToFirst() ) { // if the info is empty avoid crash
+                driverid = c.getString(driverid_index); // doesnt display
+                name = c.getString(name_index);
+                phone = c.getString(phone_index);
+                area = c.getString(area_index);
+                workingfrom = c.getString(workingfromIndex);
+                workingtill = c.getString(workingtill_index);
+                gassmall = c.getInt(gassmall_index);
+                gasbig = c.getInt(gasbig_index);
+                deliver = c.getInt(deliver_index);
+                repair = c.getInt(repair_index);
+                rating = c.getFloat(rating_index);
+                service = "";
 
             Log.d("DriverID ",driverid);
             Log.d("name", name);
             Log.d("phone", phone);
             Log.d("deliver", deliver + "");
-
+            }
             TextView tv_companyName = (TextView) findViewById(R.id.tv_companyName);
             TextView tv_phone = (TextView) findViewById(R.id.tv_phone);
             TextView tv_price = (TextView) findViewById(R.id.tv_price);

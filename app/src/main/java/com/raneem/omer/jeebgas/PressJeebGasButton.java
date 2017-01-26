@@ -51,7 +51,9 @@ public class PressJeebGasButton extends AppCompatActivity implements AdapterView
         firebaseRef_Driver.addValueEventListener(new com.google.firebase.database.ValueEventListener() {
             @Override
             public void onDataChange(com.google.firebase.database.DataSnapshot dataSnapshot) {
-                db.emptyDriverTable(); // clear the database drivers befor updaiting new ones
+
+                //db.emptyDriverTable(); // clear the database drivers befor updaiting new ones
+
                 Log.d("Snapshot", dataSnapshot.toString());
                 drivers_hashmap = (Map<String, Map<String, String>>) dataSnapshot.getValue();
 
@@ -79,7 +81,6 @@ public class PressJeebGasButton extends AppCompatActivity implements AdapterView
                     Log.e("JeebGasButton.onCreate",i + "  " + drivername);
                     }
 
-
                 }
 
             }
@@ -103,6 +104,7 @@ public class PressJeebGasButton extends AppCompatActivity implements AdapterView
 
 
     }
+
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

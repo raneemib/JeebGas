@@ -72,7 +72,6 @@ public class PressOrderStatus extends AppCompatActivity {
     public void ClickCancelOrder(View v){
         //Cancel Order toaste
         db.empty_OrderTable();
-
         Context context = getApplicationContext();
         CharSequence text = "Your Order is Canceled";
         int duration = Toast.LENGTH_SHORT;

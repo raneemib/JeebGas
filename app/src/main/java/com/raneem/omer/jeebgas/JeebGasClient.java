@@ -7,7 +7,8 @@ import android.database.Cursor;
 public class JeebGasClient {
 
     private static String name;
-    private static String address;
+    private static String lng;
+    private static String lat;
     private static String phone;
 
 
@@ -16,23 +17,33 @@ public class JeebGasClient {
         Cursor cursor = dbHelper.getClient();
         if(cursor != null && cursor.moveToFirst()) {
             int nameIndex = cursor.getColumnIndex("name");
-            int addressIndex = cursor.getColumnIndex("address");
+            int lngIndex = cursor.getColumnIndex("lng");
+            int latIndex = cursor.getColumnIndex("lat");
             int phoneIndex = cursor.getColumnIndex("phone");
 
             name = cursor.getString(nameIndex);
-            address = cursor.getString(addressIndex);
+            lng = cursor.getString(lngIndex);
+            lat = cursor.getString(latIndex);
             phone = cursor.getString(phoneIndex);
         }
     }
 
-    public static String getAddress() {
-        return address;
+
+    public static String getLng() {
+        return lng;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public static void setLng(String lng) {
+        JeebGasClient.lng = lng;
     }
 
+    public static String getLat() {
+        return lat;
+    }
+
+    public static void setLat(String lat) {
+        JeebGasClient.lat = lat;
+    }
     public static String getName() {
         return name;
     }

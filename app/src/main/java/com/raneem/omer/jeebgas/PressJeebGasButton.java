@@ -32,6 +32,7 @@ public class PressJeebGasButton extends AppCompatActivity implements AdapterView
     private ListView lv;
     private DBHelper db; // DBHelper objecr
     private DriversListAdapter driversListAdapter;
+    private Cursor c;
 
     private Map<String, Map<String, String>> drivers_hashmap;
 
@@ -43,6 +44,12 @@ public class PressJeebGasButton extends AppCompatActivity implements AdapterView
         lv = (ListView) findViewById(R.id.listView);
         db = new DBHelper(getApplicationContext()); // initialize DBHelper object
 
+        // initiate adapter list population
+        //show drivers names in the list view
+        c = db.getDriversList();
+        driversListAdapter = new DriversListAdapter(getApplicationContext(), c);
+        lv.setAdapter(driversListAdapter);
+        lv.setOnItemClickListener(this);
 
 
         //FireBase
@@ -54,7 +61,7 @@ public class PressJeebGasButton extends AppCompatActivity implements AdapterView
             @Override
             public void onDataChange(com.google.firebase.database.DataSnapshot dataSnapshot) {
 
-                //db.emptyDriverTable(); // clear the database drivers befor updaiting new ones
+
 
                 Log.d("Snapshot", dataSnapshot.toString());
                 drivers_hashmap = (Map<String, Map<String, String>>) dataSnapshot.getValue();
@@ -71,6 +78,7 @@ public class PressJeebGasButton extends AppCompatActivity implements AdapterView
 
 
                     try {
+                        db.emptyDriverTable(); // clear the database drivers befor updaiting new ones
                         int deliver = Integer.parseInt(drivers_hashmap.get(i).get("DELIVER"));
                         int repair = Integer.parseInt(drivers_hashmap.get(i).get("REPAIR"));
                         int gassmall = Integer.parseInt(drivers_hashmap.get(i).get("GASSMALL"));
@@ -78,6 +86,9 @@ public class PressJeebGasButton extends AppCompatActivity implements AdapterView
 
                         db.insertDriver( driverid, drivername, driverphone, workingarea, workinghoursfrom, workinghourstill,
                                 gassmall, gasbig, deliver, repair,0);  //TODO Disable Rating to Avoid Shaming
+
+                        c = db.getDriversList();
+                        driversListAdapter.changeCursor(c);
 
                     } catch(NumberFormatException nfe) {
                     Log.e("JeebGasButton.onCreate",i + "  " + drivername);
@@ -97,11 +108,7 @@ public class PressJeebGasButton extends AppCompatActivity implements AdapterView
 
 
 
-        //show drivers names in the list view
-        Cursor c = db.getDriversList();
-        driversListAdapter = new DriversListAdapter(getApplicationContext(), c);
-        lv.setAdapter(driversListAdapter);
-        lv.setOnItemClickListener(this);
+
 
 
 

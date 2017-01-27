@@ -36,25 +36,6 @@ public class DBHelper_old extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertClient(JeebGasClient jeebgasclient) {
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        try {
-
-            String deleteQuery = "delete from " + TABLE_CLIENT + ";";
-            getWritableDatabase().execSQL(deleteQuery);
-
-            contentValues.put(NAME, jeebgasclient.getName());
-            contentValues.put(ADDRESS, jeebgasclient.getAddress());
-            contentValues.put(PHONE, jeebgasclient.getPhone());
-
-            return true;
-        } catch (Exception e) {
-
-            return false;
-        }
-    }
 
     public Cursor getClient() {
         String selectQuery = "SELECT * FROM " + TABLE_CLIENT + " LIMIT 1;";

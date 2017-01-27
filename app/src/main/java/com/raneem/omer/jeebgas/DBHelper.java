@@ -23,7 +23,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static boolean isNull = true;
 
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 11;
     private static final String DATABASE_NAME = "jeebGas";
     private static final String TABLE_CLIENT = "Client";
     public static final String TABLE_ORDER = "_Order";
@@ -33,7 +33,8 @@ public class DBHelper extends SQLiteOpenHelper {
    // private static String DriverID;//(TODO) need to get the driver id from Firebase to mark his orders
 
     private static final String NAME = "name";
-    private static final String ADDRESS = "address";
+    private static final String LNG = "lng";
+    private static final String LAT = "lat";
     private static final String PHONE = "phone";
 
     private static final String TABLE_DRIVER = "Driver";
@@ -57,7 +58,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     private String CREATE_ACCOUNT_TABLE = "create table if not exists " + TABLE_CLIENT +
-            " (_id integer primary key AUTOINCREMENT, " + NAME + " text, " + ADDRESS + " text, " + PHONE + " integer)";
+            " (_id integer primary key AUTOINCREMENT, " + NAME + " text, " + LNG + " double, " + LAT + " double, " + PHONE + " integer)";
 
     private String CREATE_DRIVER_TABLE = "create table if not exists " + TABLE_DRIVER +
             " (_id integer primary key AUTOINCREMENT, "
@@ -166,7 +167,8 @@ public class DBHelper extends SQLiteOpenHelper {
             getWritableDatabase().execSQL(deleteQuery);
 
             contentValues.put(NAME, jeebgasclient.getName());
-            contentValues.put(ADDRESS, jeebgasclient.getAddress());
+            contentValues.put(LNG, jeebgasclient.getLng());
+            contentValues.put(LAT, jeebgasclient.getLat());
             contentValues.put(PHONE, jeebgasclient.getPhone());
             db.insert(TABLE_CLIENT, null, contentValues);
 
@@ -174,7 +176,8 @@ public class DBHelper extends SQLiteOpenHelper {
             //Save in firebase
             Map<String, String> FBmap = new HashMap<String, String>();
             FBmap.put("NAME",jeebgasclient.getName());
-            FBmap.put("ADDRESS",jeebgasclient.getAddress());
+            FBmap.put("LNG",jeebgasclient.getLng());
+            FBmap.put("LAT",jeebgasclient.getLat());
             FBmap.put("PHONE",jeebgasclient.getPhone());
 
             mDataBaseRef.child("Client").child(ClientID).setValue(FBmap);

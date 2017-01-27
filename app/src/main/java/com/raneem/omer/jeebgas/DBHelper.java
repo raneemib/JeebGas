@@ -18,7 +18,10 @@ import java.util.Map;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final DatabaseReference mDataBaseRef = FirebaseDatabase.getInstance().getReference();
-    private static final int DATABASE_VERSION = 2;
+    private static DatabaseReference LastOrderDBRef;
+    private static boolean isNull = true;
+
+    private static final int DATABASE_VERSION = 9;
     private static final String DATABASE_NAME = "jeebGas";
     private static final String TABLE_CLIENT = "Client";
     public static final String TABLE_ORDER = "_Order";
@@ -340,7 +343,8 @@ public class DBHelper extends SQLiteOpenHelper {
     //fill the new order aftr pressing ordernow
     public boolean insertOrder(String driverId,String name, String phone, String workingArea, String hours_from, String hours_till, int order_price, int deliver,
                               int repair, float rating) {
-
+        if(!isNull)
+            LastOrderDBRef.removeValue();
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         try {
@@ -373,7 +377,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
             // Save the Order info + the Driver info the order is from
             mDataBaseRef.child("Orders").child(driverId).child(ClientID).setValue(FBmap);
-
+            isNull = false;
+            LastOrderDBRef =FirebaseDatabase.getInstance().getReference().child("Orders").child(driverId).child(ClientID);
             return true;
         } catch( Exception e) {
             return false;

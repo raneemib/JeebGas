@@ -47,6 +47,8 @@ public class PressJeebGasButton extends AppCompatActivity implements AdapterView
 
         //FireBase
         final DatabaseReference firebaseRef_Driver =  FirebaseDatabase.getInstance().getReference().child("Driver");
+        //DatabaseReference mDataBaseRef= FirebaseDatabase.getInstance().getReference();
+        //        mDataBaseRef.child("Test").removeValue(); // to remove a value
         drivers_hashmap = new HashMap<>();
         firebaseRef_Driver.addValueEventListener(new com.google.firebase.database.ValueEventListener() {
             @Override

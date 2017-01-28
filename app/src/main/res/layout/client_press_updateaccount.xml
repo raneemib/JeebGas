@@ -115,16 +115,35 @@
                 android:layout_centerHorizontal="true"
                 android:contentDescription="Your Address" />
 
+
         </RelativeLayout>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.0"
+        android:orientation="vertical">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.0">
+    <Button
+        android:text="Save My Current Location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/savelocationbt"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="ClickgetLocation" />
+    </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1.0"
         >
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Save"
             android:id="@+id/savebt"
@@ -132,5 +151,6 @@
             android:layout_centerHorizontal="true"
             android:onClick="ClickSave" />
     </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

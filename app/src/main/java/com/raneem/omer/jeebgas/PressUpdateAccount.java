@@ -3,15 +3,30 @@ package com.raneem.omer.jeebgas;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import android.location.Location;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,31 +39,71 @@ import static com.raneem.omer.jeebgas.R.id.addresstf;
 
 public class PressUpdateAccount extends AppCompatActivity {
 
+
+    double latitude;
+    double longitude;
+
     EditText nametf;
     EditText phonenumbertf;
     EditText addresstf;
 
     Button savebt;
+    Button savelocationbt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.client_press_updateaccount);
 
+
         nametf = (EditText) findViewById(R.id.nametf);
         addresstf = (EditText) findViewById(R.id.addresstf);
         phonenumbertf = (EditText) findViewById(R.id.phonenumbertf);
 
         savebt = (Button) findViewById(R.id.savebt);
+        savelocationbt = (Button) findViewById(R.id.savelocationbt);
 
 
         JeebGasClient jeebGasClient = new JeebGasClient(getApplicationContext());
         nametf.setText(jeebGasClient.getName());
         phonenumbertf.setText(jeebGasClient.getPhone());
 
-        GetAddress getAddress = new GetAddress(31.800517, 35.154865);
-        getAddress.execute();
     }
+
+
+// >>>>>>>>>>>>>>>>> START LOCATION TESTING <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+    public void ClickgetLocation(View v) {
+
+
+        // instantiate the location manager, note you will need to request permissions in your manifest
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        // get the last know location from your location manager.
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            Log.d("im gone bye!","   ");
+
+        }
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        // now get the lat/lon from the location and do something with it.
+
+        longitude = location.getLongitude();
+        latitude = location.getLatitude();
+
+        GetAddress getAddress = new GetAddress(longitude, latitude);
+        getAddress.execute();
+        Log.d("lng,lat","   " + longitude + "  " + latitude);
+    }
+
+// >>>>>>>>>>>>>>>>> END LOCATION TESTING <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 
 
 
@@ -73,8 +128,8 @@ public class PressUpdateAccount extends AppCompatActivity {
         JeebGasClient jeebGasClient = new JeebGasClient(getApplicationContext());
 
         jeebGasClient.setName(nametf.getText().toString());
-        jeebGasClient.setLng(addresstf.getText().toString());
-        jeebGasClient.setLat(addresstf.getText().toString());
+        jeebGasClient.setLng( Double.toString(longitude));
+        jeebGasClient.setLat( Double.toString(latitude));
         jeebGasClient.setPhone(phonenumbertf.getText().toString());
 
         db.insertClient(jeebGasClient);
@@ -98,6 +153,7 @@ public class PressUpdateAccount extends AppCompatActivity {
             this.lat = lat;
             this.lng = lng;
         }
+
 
         // Method that converts lat lng to address using GEOCODER,
         // returns list with 1 cell

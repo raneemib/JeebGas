@@ -23,7 +23,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static boolean isNull = true;
 
-    private static final int DATABASE_VERSION = 11;
+    private static final int DATABASE_VERSION = 14;
     private static final String DATABASE_NAME = "jeebGas";
     private static final String TABLE_CLIENT = "Client";
     public static final String TABLE_ORDER = "_Order";
@@ -36,6 +36,8 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String LNG = "lng";
     private static final String LAT = "lat";
     private static final String PHONE = "phone";
+    private static final String ADRESS = "address";
+
 
     private static final String TABLE_DRIVER = "Driver";
     private static final String DRIVERID = "driverid";
@@ -58,7 +60,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     private String CREATE_ACCOUNT_TABLE = "create table if not exists " + TABLE_CLIENT +
-            " (_id integer primary key AUTOINCREMENT, " + NAME + " text, " + LNG + " double, " + LAT + " double, " + PHONE + " integer)";
+            " (_id integer primary key AUTOINCREMENT, " + NAME + " text, " + ADRESS + " text, "  + LNG + " double, " + LAT + " double, " + PHONE + " integer)";
 
     private String CREATE_DRIVER_TABLE = "create table if not exists " + TABLE_DRIVER +
             " (_id integer primary key AUTOINCREMENT, "
@@ -169,6 +171,7 @@ public class DBHelper extends SQLiteOpenHelper {
             contentValues.put(NAME, jeebgasclient.getName());
             contentValues.put(LNG, jeebgasclient.getLng());
             contentValues.put(LAT, jeebgasclient.getLat());
+            contentValues.put(ADRESS, jeebgasclient.getAddress());
             contentValues.put(PHONE, jeebgasclient.getPhone());
             db.insert(TABLE_CLIENT, null, contentValues);
 
@@ -178,6 +181,7 @@ public class DBHelper extends SQLiteOpenHelper {
             FBmap.put("NAME",jeebgasclient.getName());
             FBmap.put("LNG",jeebgasclient.getLng());
             FBmap.put("LAT",jeebgasclient.getLat());
+            FBmap.put("ADDRESS",jeebgasclient.getAddress());
             FBmap.put("PHONE",jeebgasclient.getPhone());
 
             mDataBaseRef.child("Client").child(ClientID).setValue(FBmap);

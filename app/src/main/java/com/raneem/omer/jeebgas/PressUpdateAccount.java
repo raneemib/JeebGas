@@ -60,6 +60,7 @@ public class PressUpdateAccount extends AppCompatActivity implements GoogleApiCl
 
         JeebGasClient jeebGasClient = new JeebGasClient(getApplicationContext());
         nametf.setText(jeebGasClient.getName());
+        addresstf.setText(jeebGasClient.getAddress());
         phonenumbertf.setText(jeebGasClient.getPhone());
 
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -112,8 +113,6 @@ public class PressUpdateAccount extends AppCompatActivity implements GoogleApiCl
                 == PackageManager.PERMISSION_GRANTED) {
             Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
 
-            longitude = lastLocation.getLongitude();
-            latitude = lastLocation.getLatitude();
             Log.d("lng,lat #0","   " + longitude + "  " + latitude);
 
         }
@@ -160,6 +159,15 @@ public class PressUpdateAccount extends AppCompatActivity implements GoogleApiCl
     //"Save" Button Functionality
     public void ClickSave(View v){
 
+        if(latitude ==0 && longitude == 0) {
+            //Save location reminder toaste
+            Context context = getApplicationContext();
+            CharSequence text = "You Did Not Save Your Location                    (Click The Button Above)";
+            int duration = Toast.LENGTH_SHORT;
+            Toast.makeText(context, text, duration).show();
+            return;
+        }
+
         SaveAccInfo();
 
         //Save Successfull toaste
@@ -174,6 +182,7 @@ public class PressUpdateAccount extends AppCompatActivity implements GoogleApiCl
 
 
     private void SaveAccInfo(){
+
         DBHelper db = new DBHelper(this);
         JeebGasClient jeebGasClient = new JeebGasClient(getApplicationContext());
 
@@ -181,6 +190,7 @@ public class PressUpdateAccount extends AppCompatActivity implements GoogleApiCl
         jeebGasClient.setLng( Double.toString(longitude));
         jeebGasClient.setLat( Double.toString(latitude));
         jeebGasClient.setPhone(phonenumbertf.getText().toString());
+        jeebGasClient.setAddress(addresstf.getText().toString());
 
         db.insertClient(jeebGasClient);
     }

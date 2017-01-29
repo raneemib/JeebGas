@@ -12,6 +12,10 @@ public class JeebGasClient {
     private static String phone;
 
 
+
+    private static String address;
+
+
     public JeebGasClient(Context context) {
         DBHelper dbHelper = new DBHelper(context);
         Cursor cursor = dbHelper.getClient();
@@ -20,11 +24,13 @@ public class JeebGasClient {
             int lngIndex = cursor.getColumnIndex("lng");
             int latIndex = cursor.getColumnIndex("lat");
             int phoneIndex = cursor.getColumnIndex("phone");
+            int addressIndex = cursor.getColumnIndex("address");
 
             name = cursor.getString(nameIndex);
             lng = cursor.getString(lngIndex);
             lat = cursor.getString(latIndex);
             phone = cursor.getString(phoneIndex);
+            address = cursor.getString(addressIndex);
         }
     }
 
@@ -58,6 +64,14 @@ public class JeebGasClient {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public static String getAddress() {
+        return address;
+    }
+
+    public static void setAddress(String address) {
+        JeebGasClient.address = address;
     }
 
 }

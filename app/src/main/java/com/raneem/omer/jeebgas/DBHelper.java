@@ -23,7 +23,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static boolean isNull = true;
 
-    private static final int DATABASE_VERSION = 14;
+    private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "jeebGas";
     private static final String TABLE_CLIENT = "Client";
     public static final String TABLE_ORDER = "_Order";
@@ -361,6 +361,8 @@ public class DBHelper extends SQLiteOpenHelper {
             LastOrderDBRef.removeValue(); // delete the old order befor inserting the new one
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+
+
         try {
             if(!driverId.isEmpty()) //some times we need to insert null to just save the other data
                 contentValues.put(DRIVERID, driverId);
@@ -377,12 +379,33 @@ public class DBHelper extends SQLiteOpenHelper {
 
             //Save in firebase order/driver info
             Map<String, String> FBmap = new HashMap<String, String>();
-          //  FBmap.put("ClientID",ClientID);
-            FBmap.put("DRIVERNAME",name);
-            FBmap.put("DRIVERPHONE",phone);
-            FBmap.put("WORKINGAREA",workingArea);
-            FBmap.put("WORKINGHOURSFROM",hours_from);
-            FBmap.put("WORKINGHOURSTILL",hours_till);
+            //FBmap.put("ClientID",ClientID);
+            //FBmap.put("DRIVERNAME",name);
+            //FBmap.put("DRIVERPHONE",phone);
+            //FBmap.put("WORKINGAREA",workingArea);
+            //FBmap.put("WORKINGHOURSFROM",hours_from);
+            //FBmap.put("WORKINGHOURSTILL",hours_till);
+            Cursor cursor = getClient();
+            if(cursor != null && cursor.moveToFirst()) {
+                int nameIndex = cursor.getColumnIndex("name");
+                int lngIndex = cursor.getColumnIndex("lng");
+                int latIndex = cursor.getColumnIndex("lat");
+                int phoneIndex = cursor.getColumnIndex("phone");
+                int addressIndex = cursor.getColumnIndex("address");
+
+                String namec = cursor.getString(nameIndex);
+                String lngc = cursor.getString(lngIndex);
+                String latc = cursor.getString(latIndex);
+                String phonec = cursor.getString(phoneIndex);
+                String addressc = cursor.getString(addressIndex);
+
+                FBmap.put("NAME",namec);
+                FBmap.put("LNG",lngc);
+                FBmap.put("LAT",latc);
+                FBmap.put("ADDRESS",phonec);
+                FBmap.put("PHONE",addressc);
+            }
+
             String Dstr = String.valueOf(deliver);
             String Rstr = String.valueOf(repair);
             FBmap.put("DELIVER",Dstr);

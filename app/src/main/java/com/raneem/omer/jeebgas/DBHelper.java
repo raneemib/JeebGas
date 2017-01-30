@@ -402,8 +402,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 FBmap.put("NAME",namec);
                 FBmap.put("LNG",lngc);
                 FBmap.put("LAT",latc);
-                FBmap.put("ADDRESS",phonec);
-                FBmap.put("PHONE",addressc);
+                FBmap.put("PHONE",phonec);
+                FBmap.put("ADDRESS",addressc);
             }
 
             String Dstr = String.valueOf(deliver);

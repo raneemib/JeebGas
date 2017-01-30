@@ -30,7 +30,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     // the Client unquie ID
     private static String ClientID;
-   // private static String DriverID;//(TODO) need to get the driver id from Firebase to mark his orders
+   // private static String DriverID;
 
     private static final String NAME = "name";
     private static final String LNG = "lng";

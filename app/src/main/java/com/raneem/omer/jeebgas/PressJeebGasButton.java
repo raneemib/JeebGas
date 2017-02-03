@@ -78,7 +78,7 @@ public class PressJeebGasButton extends AppCompatActivity implements AdapterView
 
 
                     try {
-                        db.emptyDriverTable(); // clear the database drivers befor updaiting new ones
+                        //db.emptyDriverTable(); // clear the database drivers befor updaiting new ones
                         int deliver = Integer.parseInt(drivers_hashmap.get(i).get("DELIVER"));
                         int repair = Integer.parseInt(drivers_hashmap.get(i).get("REPAIR"));
                         int gassmall = Integer.parseInt(drivers_hashmap.get(i).get("GASSMALL"));

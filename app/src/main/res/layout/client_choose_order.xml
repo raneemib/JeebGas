@@ -6,7 +6,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/wallet_highlighted_text_holo_dark">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,7 +27,7 @@
                 android:text="Company Name:"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10px"
-                 />
+                android:textStyle="bold"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -41,7 +42,7 @@
                 android:id="@+id/tv_companyName"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10px"
-                />
+                android:textStyle="bold"/>
 
         </RelativeLayout>
     </LinearLayout>
@@ -64,7 +65,7 @@
                 android:text="Phone:"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10px"
-                />
+                android:textStyle="bold"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -79,7 +80,7 @@
                 android:id="@+id/tv_phone"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10px"
-                />
+                android:textStyle="bold"/>
 
         </RelativeLayout>
     </LinearLayout>
@@ -101,7 +102,7 @@
                 android:text="Price:"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10px"
-                />
+                android:textStyle="bold"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -116,7 +117,7 @@
                 android:id="@+id/tv_price"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10px"
-                />
+                android:textStyle="bold"/>
 
         </RelativeLayout>
     </LinearLayout>
@@ -138,7 +139,7 @@
                 android:text="Service Type:"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10px"
-                />
+                android:textStyle="bold"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -153,7 +154,7 @@
                 android:id="@+id/tv_serviceType"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10px"
-                />
+                android:textStyle="bold"/>
 
         </RelativeLayout>
     </LinearLayout>
@@ -175,7 +176,7 @@
                 android:text="Working Area:"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10px"
-                />
+                android:textStyle="bold"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -190,7 +191,7 @@
                 android:id="@+id/tv_workingArea"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10px"
-                />
+                android:textStyle="bold"/>
 
         </RelativeLayout>
     </LinearLayout>
@@ -212,7 +213,7 @@
                 android:text="Working Hours:"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10px"
-                />
+                android:textStyle="bold" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -227,7 +228,7 @@
                 android:id="@+id/tv_workingHours"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10px"
-                />
+                android:textStyle="bold"/>
 
         </RelativeLayout>
     </LinearLayout>
@@ -249,7 +250,7 @@
                 android:text="Driver Rating:"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10px"
-                />
+                android:textStyle="bold"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -264,7 +265,7 @@
                 android:id="@+id/tv_driverRating"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10px"
-                />
+                android:textStyle="bold"/>
 
         </RelativeLayout>
     </LinearLayout>
@@ -281,7 +282,11 @@
             android:id="@+id/ordernowbutton"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:onClick="ClickOrderNow" />
+            android:onClick="ClickOrderNow"
+            android:textColor="#ffffff"
+            android:textSize="25sp"
+
+            android:background="@drawable/buttonshape2"/>
     </RelativeLayout>
 
 </LinearLayout>

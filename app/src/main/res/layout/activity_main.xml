@@ -36,9 +36,9 @@ tools:context="com.raneem.omer.jeebgas.MainActivity"
                 android:scaleType="fitCenter"
                 android:adjustViewBounds="false"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true"
                 android:layout_marginStart="23dp"
-                android:cropToPadding="false" />
+                android:cropToPadding="false"
+                android:layout_marginLeft="23dp" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -58,10 +58,13 @@ tools:context="com.raneem.omer.jeebgas.MainActivity"
             android:id="@+id/updateaccountbutton"
             android:layout_marginBottom="12dp"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:onClick="ClickUpdateAccount" />
+            android:onClick="ClickUpdateAccount"
+            android:textColor="#252E80"
+            android:textSize="25sp"
+
+            android:background="@drawable/buttonshape"/>
 
 
         <Button
@@ -70,11 +73,14 @@ tools:context="com.raneem.omer.jeebgas.MainActivity"
             android:layout_height="wrap_content"
             android:id="@+id/orderstatusbutton"
             android:layout_above="@+id/updateaccountbutton"
-            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="17dp"
-            android:onClick="ClickOrderStatus" />
+            android:onClick="ClickOrderStatus"
+            android:textColor="#252E80"
+            android:textSize="25sp"
+
+            android:background="@drawable/buttonshape"/>
     </RelativeLayout>
 </LinearLayout>
 

@@ -6,7 +6,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/wallet_highlighted_text_holo_dark">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +26,7 @@
                 android:text="Company Name:"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10px"
-                />
+                android:textStyle="bold"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -62,7 +63,7 @@
                 android:text="Phone:"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10px"
-                />
+                android:textStyle="bold"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -99,7 +100,7 @@
                 android:text="Price:"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10px"
-                />
+                android:textStyle="bold"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -136,7 +137,7 @@
                 android:text="Service Type:"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10px"
-                />
+                android:textStyle="bold"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -173,7 +174,7 @@
                 android:text="Working Area:"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10px"
-                />
+                android:textStyle="bold"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -210,7 +211,7 @@
                 android:text="Working Hours:"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10px"
-                />
+                android:textStyle="bold"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -247,7 +248,7 @@
                 android:text="Driver Rating:"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10px"
-                />
+                android:textStyle="bold"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -267,33 +268,55 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1.0"
+        android:orientation="horizontal"
         >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cancel Order"
-            android:id="@+id/cancelorderbutton"
-            android:layout_marginEnd="35dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:onClick="ClickCancelOrder" />
-
-        <Button
+            <Button
             android:text="Leave Feedback"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
-            android:id="@+id/leavefeedbackbt"
-            android:layout_alignBaseline="@+id/cancelorderbutton"
-            android:layout_alignBottom="@+id/cancelorderbutton"
-            android:layout_alignParentStart="true"
-            android:onClick="ClickFeedBack" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+                android:id="@+id/leavefeedbackbt"
 
-    </RelativeLayout>
+                android:onClick="ClickFeedBack"
+                android:textColor="#ffffff"
+            android:textSize="25sp"
+
+            android:background="@drawable/buttonshape2" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.8">
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Cancel Order"
+                android:id="@+id/cancelorderbutton"
+                android:onClick="ClickCancelOrder"
+                android:textColor="#ffffff"
+                android:textSize="25sp"
+
+                android:background="@drawable/buttonshape2"
+                android:layout_alignParentTop="true" />
+        </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/wallet_highlighted_text_holo_dark">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +20,7 @@
                 android:text="Company Name:"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10px"
-                />
+                android:textStyle="bold"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -33,7 +34,7 @@
                 android:id="@+id/companynametv"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10px"
-                />
+                android:textStyle="bold"/>
 
         </RelativeLayout>
     </LinearLayout>
@@ -54,7 +55,7 @@
                 android:text="Price:"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10px"
-                />
+                android:textStyle="bold"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -69,7 +70,7 @@
                 android:id="@+id/stars"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10px"
-                />
+                android:textStyle="bold"/>
 
         </RelativeLayout>
     </RelativeLayout>
@@ -88,17 +89,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Service Type:"
+                android:text=""
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10px"
-                />
+                android:textStyle="bold"/>
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.0"
-            android:layout_alignParentStart="true">
+>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -107,7 +108,7 @@
                 android:id="@+id/commenttv"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10px"
-                />
+                android:textStyle="bold"/>
 
         </RelativeLayout>
     </RelativeLayout>
@@ -116,15 +117,6 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="98dp">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Login"
-            android:id="@+id/leavefeedbkbt"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:onClick="ClickLoginButton" />
-    </RelativeLayout>
+        android:layout_height="98dp"></RelativeLayout>
 
 </LinearLayout>

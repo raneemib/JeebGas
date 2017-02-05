@@ -51,7 +51,6 @@ public class PressJeebGasButton extends AppCompatActivity implements AdapterView
         lv.setAdapter(driversListAdapter);
         lv.setOnItemClickListener(this);
 
-
         //FireBase
         final DatabaseReference firebaseRef_Driver =  FirebaseDatabase.getInstance().getReference().child("Driver");
         //DatabaseReference mDataBaseRef= FirebaseDatabase.getInstance().getReference();
@@ -60,7 +59,7 @@ public class PressJeebGasButton extends AppCompatActivity implements AdapterView
         firebaseRef_Driver.addValueEventListener(new com.google.firebase.database.ValueEventListener() {
             @Override
             public void onDataChange(com.google.firebase.database.DataSnapshot dataSnapshot) {
-
+                db.emptyDriverTable(); // clear the database drivers befor updaiting new ones
 
 
                 Log.d("Snapshot", dataSnapshot.toString());

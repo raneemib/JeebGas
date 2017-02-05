@@ -278,45 +278,45 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.0">
+            <!--
+                        <Button
+                        android:text="Leave Feedback"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                            android:id="@+id/leavefeedbackbt"
 
-            <Button
-            android:text="Leave Feedback"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-                android:id="@+id/leavefeedbackbt"
+                            android:onClick="ClickFeedBack"
+                            android:textColor="#ffffff"
+                        android:textSize="25sp"
 
-                android:onClick="ClickFeedBack"
-                android:textColor="#ffffff"
-            android:textSize="25sp"
-
-            android:background="@drawable/buttonshape2" />
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1.8">
-        </RelativeLayout>
+                        android:background="@drawable/buttonshape2" />
+                    </RelativeLayout>
 
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1.0">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.8">
+                    </RelativeLayout>
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Cancel Order"
-                android:id="@+id/cancelorderbutton"
-                android:onClick="ClickCancelOrder"
-                android:textColor="#ffffff"
-                android:textSize="25sp"
 
-                android:background="@drawable/buttonshape2"
-                android:layout_alignParentTop="true" />
-        </RelativeLayout>
-    </LinearLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.0">
+-->
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Cancel Order"
+                            android:id="@+id/cancelorderbutton"
+                            android:onClick="ClickCancelOrder"
+                            android:textColor="#ffffff"
+                            android:textSize="25sp"
 
-</LinearLayout>
+                            android:background="@drawable/buttonshape2"
+                            android:layout_alignParentTop="true" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+            </LinearLayout>

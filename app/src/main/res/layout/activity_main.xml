@@ -21,24 +21,26 @@ tools:context="com.raneem.omer.jeebgas.MainActivity"
         android:orientation="horizontal">
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true">
+            android:layout_marginTop="120px"
+            android:layout_marginBottom="0px"
+            android:layout_marginLeft="120px"
+            android:layout_marginRight="120px">>
 
             <ImageButton
+                android:scaleType="centerCrop"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@drawable/jeebgasbuttontton"
                 android:id="@+id/imageButton"
                 android:padding="30dp"
                 android:onClick="ClickJeebGas"
-                android:scaleType="fitCenter"
+                android:cropToPadding="false"
                 android:adjustViewBounds="false"
                 android:layout_alignParentTop="true"
-                android:layout_marginStart="23dp"
-                android:cropToPadding="false"
-                android:layout_marginLeft="23dp" />
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
         </RelativeLayout>
     </LinearLayout>
 

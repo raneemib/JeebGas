@@ -136,6 +136,8 @@
         android:id="@+id/savelocationbt"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginLeft="25dp"
+
         android:onClick="ClickgetLocation"
         android:textColor="#ffffff"
         android:textSize="25sp"
@@ -143,7 +145,7 @@
         android:background="@drawable/buttonshape2"/>
     </RelativeLayout>
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1.0"
         >
@@ -154,6 +156,7 @@
             android:id="@+id/savebt"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
+            android:layout_marginLeft="25dp"
             android:onClick="ClickSave"
             android:textColor="#ffffff"
             android:textSize="25sp"

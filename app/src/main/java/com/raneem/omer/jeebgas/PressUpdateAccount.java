@@ -63,6 +63,15 @@ public class PressUpdateAccount extends AppCompatActivity implements GoogleApiCl
         addresstf.setText(jeebGasClient.getAddress());
         phonenumbertf.setText(jeebGasClient.getPhone());
 
+        try {
+            latitude = Double.parseDouble(jeebGasClient.getLat());
+            longitude = Double.parseDouble(jeebGasClient.getLng());
+        } catch (Exception e) {
+            latitude = 0;
+            longitude = 0;
+        }
+
+
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[] { android.Manifest.permission.ACCESS_COARSE_LOCATION },
@@ -160,12 +169,14 @@ public class PressUpdateAccount extends AppCompatActivity implements GoogleApiCl
     public void ClickSave(View v){
 
         if(latitude ==0 && longitude == 0) {
+
             //Save location reminder toaste
             Context context = getApplicationContext();
             CharSequence text = "You Did Not Save Your Location                    (Click The Button Above)";
             int duration = Toast.LENGTH_SHORT;
             Toast.makeText(context, text, duration).show();
             return;
+
         }
 
         SaveAccInfo();

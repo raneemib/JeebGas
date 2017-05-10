@@ -423,7 +423,7 @@ public class DBHelper extends SQLiteOpenHelper {
             isNull = false;
             //this is like a back up of the last order to kno the path for deleting
             LastOrderDBRef =FirebaseDatabase.getInstance().getReference().child("Orders").child(driverId).child(ClientID);
-            LastOrderDBRefArchive=FirebaseDatabase.getInstance().getReference().child("Orders").child(driverId).child(ClientID);
+            LastOrderDBRefArchive=FirebaseDatabase.getInstance().getReference().child("Archive").child(driverId).child(ClientID);
             return true;
         } catch( Exception e) {
             return false;

@@ -29,7 +29,7 @@ public class PressOrderStatus extends AppCompatActivity {
             TextView tv_serviceType = (TextView) findViewById(R.id.tv_serviceType);
             TextView tv_workingArea = (TextView) findViewById(R.id.tv_workingArea);
             TextView tv_workingHours = (TextView) findViewById(R.id.tv_workingHours);
-            TextView tv_driverRating = (TextView) findViewById(R.id.tv_driverRating);
+            //TextView tv_driverRating = (TextView) findViewById(R.id.tv_driverRating);
             TextView tv_phone = (TextView) findViewById(R.id.tv_phone);
 
             int name_index = c.getColumnIndex("drivername");
@@ -55,10 +55,19 @@ public class PressOrderStatus extends AppCompatActivity {
 
             tv_companyName.setText(name);
             tv_price.setText(gasPrice + " NIS");
-            tv_serviceType.setText("Deliver");
+            if (repair == 1 && deliver == 1){
+                tv_serviceType.setText("Gas & Repair");
+            }
+            else if (repair == 1 && deliver == 0) {
+                tv_serviceType.setText("Repair");
+            }
+            else if (repair == 0 && deliver == 1) {
+                tv_serviceType.setText("Gas");
+            }
+
             tv_workingArea.setText(area);
             tv_workingHours.setText(workingfrom + " - " + workingtill);
-            tv_driverRating.setText(rating);
+            //tv_driverRating.setText(rating);
             tv_phone.setText(phone);
         }
     }

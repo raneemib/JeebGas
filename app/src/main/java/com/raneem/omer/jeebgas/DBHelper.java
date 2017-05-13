@@ -7,12 +7,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -21,10 +24,14 @@ public class DBHelper extends SQLiteOpenHelper {
     private static DatabaseReference LastOrderDBRef;
     private static DatabaseReference LastOrderDBRefArchive;
 
+    //private static DatabaseReference StatusRef;
+    private Map<String, Map<String, String>> order_hashmap;
 
+
+    private static String  clientstatus=null;
     private static boolean isNull = true;
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "jeebGas";
     private static final String TABLE_CLIENT = "Client";
     public static final String TABLE_ORDER = "_Order";
@@ -54,7 +61,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String SERVICETYPE = "servicetype";
     private static final String SERVICETYPE_DELIVER = "servicetype_deliver";
     private static final String SERVICETYPE_REPAIR = "servicetype_repair";
-    private static final String DRIVER_RATING = "rating";
+    private static final String STATUS = "order_status";
 
     private static final String TABLE_CLIENTID = "_ClientID";
     private static final String CLIENT_ID =  "Client_ID";
@@ -73,7 +80,7 @@ public class DBHelper extends SQLiteOpenHelper {
             + WORKINGHOURS_TILL + " text, "
             + GASPRICE_SMALL + " integer, "
             + GASPRICE_BIG + " integer, "
-            + DRIVER_RATING + " float, "
+            + STATUS + " text, "
             + SERVICETYPE_DELIVER + " integer, "
             + SERVICETYPE_REPAIR + " integer)";
 
@@ -90,7 +97,7 @@ public class DBHelper extends SQLiteOpenHelper {
             + WORKINGHOURS_FROM + " text, "
             + WORKINGHOURS_TILL + " text, "
             + GASPRICE + " integer, "
-            + DRIVER_RATING + " float, "
+            + STATUS + " text, "
             + SERVICETYPE_DELIVER + " integer, "
             + SERVICETYPE_REPAIR + " integer)";
 
@@ -300,7 +307,7 @@ public class DBHelper extends SQLiteOpenHelper {
             contentValues.put(GASPRICE_BIG, gasPrice_big);
             contentValues.put(SERVICETYPE_DELIVER, serviceType_deliver);
             contentValues.put(SERVICETYPE_REPAIR, serviceType_repair);
-            contentValues.put(DRIVER_RATING, rating);
+           // contentValues.put(DRIVER_RATING, rating);
             db.insert(TABLE_DRIVER, null, contentValues);
             return true;
         } catch (Exception e) {
@@ -328,7 +335,7 @@ public class DBHelper extends SQLiteOpenHelper {
             contentValues.put(GASPRICE_BIG, gasPrice_big);
             contentValues.put(SERVICETYPE_DELIVER, serviceType_deliver);
             contentValues.put(SERVICETYPE_REPAIR, serviceType_repair);
-            contentValues.put(DRIVER_RATING, rating);//TODO DISABLE RATING TO AVOID SHAMING
+            //contentValues.put(DRIVER_RATING, rating);//TODO DISABLE RATING TO AVOID SHAMING
             db.insert(TABLE_DRIVER, null, contentValues);
             return true;
         } catch (Exception e) {
@@ -359,7 +366,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //fill the new order aftr pressing ordernow
     public boolean insertOrder(String driverId,String name, String phone, String workingArea, String hours_from, String hours_till, int order_price, int deliver,
-                              int repair, float rating) {
+                              int repair, float rating, String orderStatus) {
         if(!isNull) {// first time its empty ... so we avoid crashes
             LastOrderDBRef.removeValue(); // delete the old order befor inserting the new one
             LastOrderDBRefArchive.removeValue();
@@ -379,7 +386,7 @@ public class DBHelper extends SQLiteOpenHelper {
             contentValues.put(GASPRICE, order_price);
             contentValues.put(SERVICETYPE_DELIVER, deliver);
             contentValues.put(SERVICETYPE_REPAIR, repair);
-            contentValues.put(DRIVER_RATING, rating);//TODO DISABLE RATING TO AVOID SHAMING
+            contentValues.put(STATUS, orderStatus);//TODO DISABLE RATING TO AVOID SHAMING
             db.insert(TABLE_ORDER, null, contentValues);
 
             //Save in firebase order/driver info
@@ -415,6 +422,7 @@ public class DBHelper extends SQLiteOpenHelper {
             String Rstr = String.valueOf(repair);
             FBmap.put("DELIVER",Dstr);
             FBmap.put("REPAIR",Rstr);
+            FBmap.put("STATUS","Pending");
 
 
             // Save the Order info + the Driver info the order is from
@@ -424,6 +432,7 @@ public class DBHelper extends SQLiteOpenHelper {
             //this is like a back up of the last order to kno the path for deleting
             LastOrderDBRef =FirebaseDatabase.getInstance().getReference().child("Orders").child(driverId).child(ClientID);
             LastOrderDBRefArchive=FirebaseDatabase.getInstance().getReference().child("Archive").child(driverId).child(ClientID);
+            //StatusRef=FirebaseDatabase.getInstance().getReference().child("Orders").child(driverId);
             return true;
         } catch( Exception e) {
             return false;
@@ -439,4 +448,24 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
+    public String OrderStatus(){    //TODO IF STATUS IS DONE REDIRECT !
+
+        //FireBase
+        final DatabaseReference firebaseRef_Order =  LastOrderDBRefArchive.child("STATUS");
+        Log.d("After DB REF", "  ");
+        firebaseRef_Order.addValueEventListener(new com.google.firebase.database.ValueEventListener() {
+            @Override
+            public void onDataChange(com.google.firebase.database.DataSnapshot dataSnapshot) {
+                Log.d("Snapshot", dataSnapshot.toString());
+
+                clientstatus = (String) dataSnapshot.getValue();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("Firebase Error", databaseError.toString());
+            }
+        });
+        return clientstatus;
+    }
 }

@@ -31,6 +31,8 @@ public class PressOrderStatus extends AppCompatActivity {
             TextView tv_workingHours = (TextView) findViewById(R.id.tv_workingHours);
             //TextView tv_driverRating = (TextView) findViewById(R.id.tv_driverRating);
             TextView tv_phone = (TextView) findViewById(R.id.tv_phone);
+            TextView tv_orderStatus = (TextView) findViewById(R.id.tv_Status);
+
 
             int name_index = c.getColumnIndex("drivername");
             int phone_index = c.getColumnIndex("driverphone");
@@ -40,7 +42,9 @@ public class PressOrderStatus extends AppCompatActivity {
             int gasPrice_index = c.getColumnIndex("gasprice");
             int deliver_index = c.getColumnIndex("servicetype_deliver");
             int repair_index = c.getColumnIndex("servicetype_repair");
-            int rating_index = c.getColumnIndex("rating");
+            //int rating_index = c.getColumnIndex("rating");
+            //int status_index = c.getColumnIndex("status");
+
 
             String name = c.getString(name_index);
             String phone = c.getString(phone_index);
@@ -50,8 +54,8 @@ public class PressOrderStatus extends AppCompatActivity {
             int gasPrice = c.getInt(gasPrice_index);
             int deliver = c.getInt(deliver_index);
             int repair = c.getInt(repair_index);
-            String rating = c.getString(rating_index);
-
+            //String rating = c.getString(rating_index);
+            //String status = c.getString(status_index);
 
             tv_companyName.setText(name);
             tv_price.setText(gasPrice + " NIS");
@@ -69,7 +73,12 @@ public class PressOrderStatus extends AppCompatActivity {
             tv_workingHours.setText(workingfrom + " - " + workingtill);
             //tv_driverRating.setText(rating);
             tv_phone.setText(phone);
+            String status = db.OrderStatus();
+            Log.d("Status is ",status + "  ");
+            tv_orderStatus.setText(status);
+
         }
+
     }
 
 

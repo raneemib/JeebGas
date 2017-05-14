@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseError;
@@ -62,6 +63,9 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String SERVICETYPE_DELIVER = "servicetype_deliver";
     private static final String SERVICETYPE_REPAIR = "servicetype_repair";
     private static final String STATUS = "order_status";
+    private static final String ORDERREF = "order_ref";
+    private static final String ARCHIVEREF = "archive_ref";
+
 
     private static final String TABLE_CLIENTID = "_ClientID";
     private static final String CLIENT_ID =  "Client_ID";
@@ -98,6 +102,8 @@ public class DBHelper extends SQLiteOpenHelper {
             + WORKINGHOURS_TILL + " text, "
             + GASPRICE + " integer, "
             + STATUS + " text, "
+            + ORDERREF + " text, "
+            + ARCHIVEREF + " blob, "
             + SERVICETYPE_DELIVER + " integer, "
             + SERVICETYPE_REPAIR + " integer)";
 
@@ -433,6 +439,11 @@ public class DBHelper extends SQLiteOpenHelper {
             LastOrderDBRef =FirebaseDatabase.getInstance().getReference().child("Orders").child(driverId).child(ClientID);
             LastOrderDBRefArchive=FirebaseDatabase.getInstance().getReference().child("Archive").child(driverId).child(ClientID);
             //StatusRef=FirebaseDatabase.getInstance().getReference().child("Orders").child(driverId);
+
+            /*contentValues.put(ORDERREF, LastOrderDBRef.toString());
+            contentValues.put(ARCHIVEREF, LastOrderDBRefArchive.toString());
+            db.insert(TABLE_ORDER, null, contentValues);*/
+
             return true;
         } catch( Exception e) {
             return false;
@@ -450,22 +461,37 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public String OrderStatus(){    //TODO IF STATUS IS DONE REDIRECT !
 
-        //FireBase
-        final DatabaseReference firebaseRef_Order =  LastOrderDBRefArchive.child("STATUS");
-        Log.d("After DB REF", "  ");
-        firebaseRef_Order.addValueEventListener(new com.google.firebase.database.ValueEventListener() {
-            @Override
-            public void onDataChange(com.google.firebase.database.DataSnapshot dataSnapshot) {
-                Log.d("Snapshot", dataSnapshot.toString());
+       /* String archiveREF="";
+        Cursor c = getOrder();
+        if(c.moveToFirst()) {
 
-                clientstatus = (String) dataSnapshot.getValue();
-            }
+            int ref_index = c.getColumnIndex("archive_ref");
+            archiveREF = c.getString(ref_index);
+            LastOrderDBRefArchive = archiveREF;
+        }*/
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d("Firebase Error", databaseError.toString());
-            }
-        });
-        return clientstatus;
+        try {
+            //FireBase
+
+            final DatabaseReference firebaseRef_Order = LastOrderDBRefArchive.child("STATUS");
+            Log.d("After DB REF", "  ");
+            firebaseRef_Order.addValueEventListener(new com.google.firebase.database.ValueEventListener() {
+                @Override
+                public void onDataChange(com.google.firebase.database.DataSnapshot dataSnapshot) {
+                    Log.d("Snapshot", dataSnapshot.toString());
+
+                    clientstatus = (String) dataSnapshot.getValue();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.d("Firebase Error", databaseError.toString());
+                }
+            });
+            return clientstatus;
+    } catch (Exception e) {
+        Log.e("InsertDriverID", e.toString());
+        return null;
+    }
     }
 }

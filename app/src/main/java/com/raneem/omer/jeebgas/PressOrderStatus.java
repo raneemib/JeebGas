@@ -73,16 +73,25 @@ public class PressOrderStatus extends AppCompatActivity {
             tv_workingHours.setText(workingfrom + " - " + workingtill);
             //tv_driverRating.setText(rating);
             tv_phone.setText(phone);
-            String status = db.OrderStatus();
-            Log.d("Status is ",status + "  ");
-            tv_orderStatus.setText(status);
+                String status = db.OrderStatus();
+            if (status != null) {
+                if (status.equals("Done")) {
+                    Log.d("its DONE woo ", "  ");
+                    Intent orderDone = new Intent(this, PressLeaveFeedBack.class);
+                    startActivity(orderDone);
+                }
+            }
+
+                Log.d("Status is ", status + "  ");
+                tv_orderStatus.setText(status);
+
 
         }
 
     }
 
 
-    public void ClickFeedBack(View v){
+    public void ifStatusdone(View v){
         Intent feedbackclicked = new Intent(this,PressLeaveFeedBack.class);
         startActivity(feedbackclicked);
     }

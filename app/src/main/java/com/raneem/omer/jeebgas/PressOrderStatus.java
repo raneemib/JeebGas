@@ -33,6 +33,12 @@ public class PressOrderStatus extends AppCompatActivity {
             TextView tv_phone = (TextView) findViewById(R.id.tv_phone);
             TextView tv_orderStatus = (TextView) findViewById(R.id.tv_Status);
 
+            String orderstatus =db.OrderStatus();
+            int id_index = c.getColumnIndex("_id");
+            long orderid = c.getInt(id_index);
+            Log.d("id befor ", String.valueOf(orderid));
+
+            db.updateStatus(orderstatus ,orderid);
 
             int name_index = c.getColumnIndex("drivername");
             int phone_index = c.getColumnIndex("driverphone");
@@ -43,7 +49,7 @@ public class PressOrderStatus extends AppCompatActivity {
             int deliver_index = c.getColumnIndex("servicetype_deliver");
             int repair_index = c.getColumnIndex("servicetype_repair");
             //int rating_index = c.getColumnIndex("rating");
-            //int status_index = c.getColumnIndex("status");
+            int status_index = c.getColumnIndex("order_status");
 
 
             String name = c.getString(name_index);
@@ -55,7 +61,7 @@ public class PressOrderStatus extends AppCompatActivity {
             int deliver = c.getInt(deliver_index);
             int repair = c.getInt(repair_index);
             //String rating = c.getString(rating_index);
-            //String status = c.getString(status_index);
+            String status = c.getString(status_index);
 
             tv_companyName.setText(name);
             tv_price.setText(gasPrice + " NIS");
@@ -73,7 +79,8 @@ public class PressOrderStatus extends AppCompatActivity {
             tv_workingHours.setText(workingfrom + " - " + workingtill);
             //tv_driverRating.setText(rating);
             tv_phone.setText(phone);
-                String status = db.OrderStatus();
+
+
             if (status != null) {
                 if (status.equals("Done")) {
                     Log.d("its DONE woo ", "  ");
@@ -82,9 +89,20 @@ public class PressOrderStatus extends AppCompatActivity {
                 }
             }
 
+
+            if(!orderstatus.equals("Please Refresh")){
+                if (!status.equals(orderstatus)) {
+                    Intent Refresh = new Intent(this, PressOrderStatus.class);
+                    startActivity(Refresh);
+                    finish();
+                }
+            }
+            if(status.equals("Please Refresh")){
+               status = db.OrderStatus();
+            }
+
                 Log.d("Status is ", status + "  ");
                 tv_orderStatus.setText(status);
-
 
         }
 

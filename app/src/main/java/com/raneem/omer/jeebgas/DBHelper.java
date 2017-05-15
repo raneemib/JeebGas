@@ -2,6 +2,7 @@ package com.raneem.omer.jeebgas;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -63,8 +64,8 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String SERVICETYPE_DELIVER = "servicetype_deliver";
     private static final String SERVICETYPE_REPAIR = "servicetype_repair";
     private static final String STATUS = "order_status";
-    private static final String ORDERREF = "order_ref";
-    private static final String ARCHIVEREF = "archive_ref";
+    //private static final String ORDERREF = "order_ref";
+    //private static final String ARCHIVEREF = "archive_ref";
 
 
     private static final String TABLE_CLIENTID = "_ClientID";
@@ -102,8 +103,8 @@ public class DBHelper extends SQLiteOpenHelper {
             + WORKINGHOURS_TILL + " text, "
             + GASPRICE + " integer, "
             + STATUS + " text, "
-            + ORDERREF + " text, "
-            + ARCHIVEREF + " blob, "
+            //+ ORDERREF + " text, "
+            //+ ARCHIVEREF + " text, "
             + SERVICETYPE_DELIVER + " integer, "
             + SERVICETYPE_REPAIR + " integer)";
 
@@ -384,67 +385,67 @@ public class DBHelper extends SQLiteOpenHelper {
         try {
             if(!driverId.isEmpty()) //some times we need to insert null to just save the other data
                 contentValues.put(DRIVERID, driverId);
-            contentValues.put(DRIVERNAME, name);
-            contentValues.put(DRIVERPHONE, phone);
-            contentValues.put(WORKINGAREA, workingArea);
-            contentValues.put(WORKINGHOURS_FROM, hours_from);
-            contentValues.put(WORKINGHOURS_TILL, hours_till);
-            contentValues.put(GASPRICE, order_price);
-            contentValues.put(SERVICETYPE_DELIVER, deliver);
-            contentValues.put(SERVICETYPE_REPAIR, repair);
-            contentValues.put(STATUS, orderStatus);//TODO DISABLE RATING TO AVOID SHAMING
-            db.insert(TABLE_ORDER, null, contentValues);
+                contentValues.put(DRIVERNAME, name);
+                contentValues.put(DRIVERPHONE, phone);
+                contentValues.put(WORKINGAREA, workingArea);
+                contentValues.put(WORKINGHOURS_FROM, hours_from);
+                contentValues.put(WORKINGHOURS_TILL, hours_till);
+                contentValues.put(GASPRICE, order_price);
+                contentValues.put(SERVICETYPE_DELIVER, deliver);
+                contentValues.put(SERVICETYPE_REPAIR, repair);
+                contentValues.put(STATUS, orderStatus);//TODO DISABLE RATING TO AVOID SHAMING
+                db.insert(TABLE_ORDER, null, contentValues);
 
-            //Save in firebase order/driver info
-            Map<String, String> FBmap = new HashMap<String, String>();
-            //FBmap.put("ClientID",ClientID);
-            //FBmap.put("DRIVERNAME",name);
-            //FBmap.put("DRIVERPHONE",phone);
-            //FBmap.put("WORKINGAREA",workingArea);
-            //FBmap.put("WORKINGHOURSFROM",hours_from);
-            //FBmap.put("WORKINGHOURSTILL",hours_till);
-            Cursor cursor = getClient();
-            if(cursor != null && cursor.moveToFirst()) {
-                int nameIndex = cursor.getColumnIndex("name");
-                int lngIndex = cursor.getColumnIndex("lng");
-                int latIndex = cursor.getColumnIndex("lat");
-                int phoneIndex = cursor.getColumnIndex("phone");
-                int addressIndex = cursor.getColumnIndex("address");
+                //Save in firebase order/driver info
+                Map<String, String> FBmap = new HashMap<String, String>();
+                //FBmap.put("ClientID",ClientID);
+                //FBmap.put("DRIVERNAME",name);
+                //FBmap.put("DRIVERPHONE",phone);
+                //FBmap.put("WORKINGAREA",workingArea);
+                //FBmap.put("WORKINGHOURSFROM",hours_from);
+                //FBmap.put("WORKINGHOURSTILL",hours_till);
+                Cursor cursor = getClient();
+                if(cursor != null && cursor.moveToFirst()) {
+                    int nameIndex = cursor.getColumnIndex("name");
+                    int lngIndex = cursor.getColumnIndex("lng");
+                    int latIndex = cursor.getColumnIndex("lat");
+                    int phoneIndex = cursor.getColumnIndex("phone");
+                    int addressIndex = cursor.getColumnIndex("address");
 
-                String namec = cursor.getString(nameIndex);
-                String lngc = cursor.getString(lngIndex);
-                String latc = cursor.getString(latIndex);
-                String phonec = cursor.getString(phoneIndex);
-                String addressc = cursor.getString(addressIndex);
+                    String namec = cursor.getString(nameIndex);
+                    String lngc = cursor.getString(lngIndex);
+                    String latc = cursor.getString(latIndex);
+                    String phonec = cursor.getString(phoneIndex);
+                    String addressc = cursor.getString(addressIndex);
 
-                FBmap.put("NAME",namec);
-                FBmap.put("LNG",lngc);
-                FBmap.put("LAT",latc);
-                FBmap.put("PHONE",phonec);
-                FBmap.put("ADDRESS",addressc);
-            }
+                    FBmap.put("NAME",namec);
+                    FBmap.put("LNG",lngc);
+                    FBmap.put("LAT",latc);
+                    FBmap.put("PHONE",phonec);
+                    FBmap.put("ADDRESS",addressc);
+                }
 
-            String Dstr = String.valueOf(deliver);
-            String Rstr = String.valueOf(repair);
-            FBmap.put("DELIVER",Dstr);
-            FBmap.put("REPAIR",Rstr);
-            FBmap.put("STATUS","Pending");
+                String Dstr = String.valueOf(deliver);
+                String Rstr = String.valueOf(repair);
+                FBmap.put("DELIVER",Dstr);
+                FBmap.put("REPAIR",Rstr);
+                FBmap.put("STATUS","Pending");
 
 
-            // Save the Order info + the Driver info the order is from
-            mDataBaseRef.child("Orders").child(driverId).child(ClientID).setValue(FBmap);
-            mDataBaseRef.child("Archive").child(driverId).child(ClientID).setValue(FBmap);
-            isNull = false;
-            //this is like a back up of the last order to kno the path for deleting
-            LastOrderDBRef =FirebaseDatabase.getInstance().getReference().child("Orders").child(driverId).child(ClientID);
-            LastOrderDBRefArchive=FirebaseDatabase.getInstance().getReference().child("Archive").child(driverId).child(ClientID);
-            //StatusRef=FirebaseDatabase.getInstance().getReference().child("Orders").child(driverId);
+                // Save the Order info + the Driver info the order is from
+                mDataBaseRef.child("Orders").child(driverId).child(ClientID).setValue(FBmap);
+                mDataBaseRef.child("Archive").child(driverId).child(ClientID).setValue(FBmap);
+                isNull = false;
+                //this is like a back up of the last order to kno the path for deleting
+                LastOrderDBRef =FirebaseDatabase.getInstance().getReference().child("Orders").child(driverId).child(ClientID);
+                LastOrderDBRefArchive=FirebaseDatabase.getInstance().getReference().child("Archive").child(driverId).child(ClientID);
+                //StatusRef=FirebaseDatabase.getInstance().getReference().child("Orders").child(driverId);
 
-            /*contentValues.put(ORDERREF, LastOrderDBRef.toString());
-            contentValues.put(ARCHIVEREF, LastOrderDBRefArchive.toString());
-            db.insert(TABLE_ORDER, null, contentValues);*/
+                /*contentValues.put(ORDERREF, LastOrderDBRef.toString());
+                contentValues.put(ARCHIVEREF, LastOrderDBRefArchive.toString());
+                db.insert(TABLE_ORDER, null, contentValues);*/
 
-            return true;
+                return true;
         } catch( Exception e) {
             return false;
         }
@@ -469,11 +470,20 @@ public class DBHelper extends SQLiteOpenHelper {
             archiveREF = c.getString(ref_index);
             LastOrderDBRefArchive = archiveREF;
         }*/
+        DatabaseReference DBrefArchive = FirebaseDatabase.getInstance().getReference();
+        Cursor cursor = getOrder();
+        if(cursor != null && cursor.moveToFirst()) {
+            int DriverIDIndex = cursor.getColumnIndex("driverid");
+
+            String OrderDriverID = cursor.getString(DriverIDIndex);
+            DBrefArchive = FirebaseDatabase.getInstance().getReference().child("Archive").child(OrderDriverID).child(ClientID).child("STATUS");
+
+        }
 
         try {
             //FireBase
 
-            final DatabaseReference firebaseRef_Order = LastOrderDBRefArchive.child("STATUS");
+            final DatabaseReference firebaseRef_Order = DBrefArchive;
             Log.d("After DB REF", "  ");
             firebaseRef_Order.addValueEventListener(new com.google.firebase.database.ValueEventListener() {
                 @Override
@@ -488,10 +498,26 @@ public class DBHelper extends SQLiteOpenHelper {
                     Log.d("Firebase Error", databaseError.toString());
                 }
             });
+
+            Log.d("im Sending ",clientstatus);
             return clientstatus;
     } catch (Exception e) {
         Log.e("InsertDriverID", e.toString());
-        return null;
+        return "Please Refresh";
     }
+    }
+
+    public void updateStatus(String orderstatus,long id){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String StatusOrder = orderstatus;
+
+        Log.d("I REACHED UPDATESTATUS", orderstatus+"  ");
+
+        ContentValues args = new ContentValues();
+        args.put(STATUS,StatusOrder);
+        db.update(TABLE_ORDER, args, "_id" + "='" + id
+                + "'", null);
+
     }
 }

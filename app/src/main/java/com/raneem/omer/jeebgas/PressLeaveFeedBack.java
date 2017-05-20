@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +54,34 @@ public class PressLeaveFeedBack extends AppCompatActivity {
 
 
     public void ClickSend(View v) {
+
+        db = new DBHelper(getApplicationContext());
+        Cursor c = db.getOrder();
+
+        RatingBar StarRating = (RatingBar) findViewById(R.id.StarsRB);
+        EditText UserComment = (EditText) findViewById(R.id.etcomment);
+
+
+        if(c.moveToFirst()) {
+
+
+            int name_index = c.getColumnIndex("drivername");
+            int deliver_index = c.getColumnIndex("servicetype_deliver");
+            int repair_index = c.getColumnIndex("servicetype_repair");
+            int area_index = c.getColumnIndex("workingarea");
+
+            String name = c.getString(name_index);
+            String area = c.getString(area_index);
+            int deliver = c.getInt(deliver_index);
+            int repair = c.getInt(repair_index);
+            float stars = StarRating.getRating();
+            String comment = String.valueOf(UserComment.getText());
+
+            Log.d("FeedBack Results  ", name +"  "+ area +"  "+ deliver +"  "+ repair +"  "+ stars +"  "+ comment);
+
+
+            db.SaveFeedBack(name,area,deliver,repair,stars,comment);
+        }
 
         db.empty_OrderTable();
 

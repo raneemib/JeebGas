@@ -520,4 +520,36 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "'", null);
 
     }
+    public void SaveFeedBack(String name,String area,int deliver,int repair,float stars,String comment){
+
+        String OrderDriverID="";
+        //DatabaseReference DBrefArchive = FirebaseDatabase.getInstance().getReference();
+        Cursor cursor = getOrder();
+        if(cursor != null && cursor.moveToFirst()) {
+            int DriverIDIndex = cursor.getColumnIndex("driverid");
+
+            OrderDriverID = cursor.getString(DriverIDIndex);
+
+        }
+
+            Map<String, String> FBmap = new HashMap<String, String>();
+
+            FBmap.put("DRIVERNAME",name);
+            FBmap.put("AREA",area);
+            String Dstr = String.valueOf(deliver);
+            String Rstr = String.valueOf(repair);
+            String StrStar = String.valueOf(stars);
+
+            FBmap.put("DELIVER",Dstr);
+            FBmap.put("REPAIR",Rstr);
+            FBmap.put("COMMENT",comment);
+            FBmap.put("STARS",StrStar);
+
+
+
+        // Save the feedback info
+        mDataBaseRef.child("FeedBack").child(OrderDriverID).child(ClientID).setValue(FBmap);
+
+        return;
+    }
 }

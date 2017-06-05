@@ -33,7 +33,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static String  clientstatus=null;
     private static boolean isNull = true;
 
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     private static final String DATABASE_NAME = "jeebGas";
     private static final String TABLE_CLIENT = "Client";
     public static final String TABLE_ORDER = "_Order";

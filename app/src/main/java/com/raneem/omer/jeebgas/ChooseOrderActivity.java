@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -171,5 +172,26 @@ public class ChooseOrderActivity extends AppCompatActivity {
         Intent ordernowclicked = new Intent(this, PressOrderStatus.class);
         startActivity(ordernowclicked);
         finish();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (Integer.parseInt(android.os.Build.VERSION.SDK) < 5
+                && keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+            Log.d("CDA", "onKeyDown Called");
+            onBackPressed();
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
+
+    public void onBackPressed() {
+        Log.d("CDA", "onBackPressed Called");
+
+        Intent saveclicked = new Intent(this, MainActivity.class);
+        startActivity(saveclicked);
+
+        return;
     }
 }

@@ -19,8 +19,19 @@ public class MainActivity extends AppCompatActivity {
 
         mockData = new MockData(getApplicationContext());
         mockData.populateMockData();
-
+        startService();
     }
+
+    public void startService() {
+        startService(new Intent(getBaseContext(), NotificaitonService.class));
+    }
+
+    // Method to stop the service
+    public void stopService() {
+        stopService(new Intent(getBaseContext(), NotificaitonService.class));
+    }
+
+
 
     public void ClickJeebGas(View v){
         // do somthing when the "jeebgas" button is clicked go to pressjeebgas activity
@@ -45,4 +56,10 @@ public class MainActivity extends AppCompatActivity {
         Intent mapIntent = new Intent(getApplicationContext(), MapsActivity.class);
         startActivity(mapIntent);
     }*/
+   public void onDestroy() {
+
+       super.onDestroy();
+       stopService();
+
+   }
 }

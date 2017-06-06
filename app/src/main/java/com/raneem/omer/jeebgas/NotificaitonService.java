@@ -27,11 +27,15 @@ import java.util.Set;
 public class NotificaitonService extends Service {
 
     private DBHelper db;
+    private NotificaitonService ns;
     private String curStatus;
     private Map<String, Map<String, String>> Order_Hashmap;
 
+
     public NotificaitonService() {
         Log.d("testing", "OrderService");
+
+
 
     }
 
@@ -57,13 +61,54 @@ public class NotificaitonService extends Service {
     @Override
     public void onCreate() {
         Log.d("testing", "onCreate");
+        db = new DBHelper(getApplicationContext());
+        DatabaseReference DBrefArchive;
+
+        String OrderDriverID = " ";
+        OrderDriverID = db.getDriverID();
+        String ClientID = " ";
+        ClientID = db.getClientIDstring();
+
+        DBrefArchive = FirebaseDatabase.getInstance().getReference().child("Archive").child(OrderDriverID).child(ClientID).child("STATUS");
 
 
+        try {
+            //FireBase
 
+            final DatabaseReference firebaseRef_Order = DBrefArchive;
+            Log.d("After DB REF", "  ");
+            final String finalOrderDriverID = OrderDriverID;
+            firebaseRef_Order.addValueEventListener(new com.google.firebase.database.ValueEventListener() {
+                @Override
+                public void onDataChange(com.google.firebase.database.DataSnapshot dataSnapshot) {
+                    Log.d("Service Snapshot", dataSnapshot.toString());
+
+                    curStatus = (String) dataSnapshot.getValue();
+                    Log.d("Service Status ", "  "+curStatus);
+                    db.updateStatus(curStatus, finalOrderDriverID);
+                    SendNotificaitons(curStatus);
+                    if(db.isOnline()){
+                        Intent intent = new Intent(getApplicationContext(),PressOrderStatus.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.d("Firebase Error", databaseError.toString());
+                }
+            });
+
+        } catch (Exception e) {
+            Log.e("Notify Service", e.toString());
         }
+    }
 
 
-    public void SendNotificaitons(){
+
+
+    public void SendNotificaitons(String state){
 
 
         String ns = Context.NOTIFICATION_SERVICE;
@@ -72,7 +117,7 @@ public class NotificaitonService extends Service {
 
                 .setSmallIcon(R.drawable.cast_ic_notification_small_icon)
                 .setContentTitle("JeebGas")
-                .setContentText("Your Order Status Have Ben Updated")
+                .setContentText("Your Order Status Updated To :" + state)
                 .getNotification();
         mBuilder.flags |= Notification.FLAG_AUTO_CANCEL;
         mBuilder.defaults |= Notification.DEFAULT_SOUND;

@@ -15,14 +15,13 @@ public class PressOrderStatus extends AppCompatActivity {
 
     DBHelper db;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.client_press_orderstatus_or_ordernow);
         db = new DBHelper(getApplicationContext());
         Cursor c = db.getOrder();
-
+        db.online=true;
 
         if(c.moveToFirst()) {
             TextView tv_companyName = (TextView) findViewById(R.id.tv_companyName);
@@ -34,12 +33,12 @@ public class PressOrderStatus extends AppCompatActivity {
             TextView tv_phone = (TextView) findViewById(R.id.tv_phone);
             TextView tv_orderStatus = (TextView) findViewById(R.id.tv_Status);
 
-            String orderstatus =db.OrderStatus();
+            //String orderstatus =db.OrderStatus();
             int id_index = c.getColumnIndex("_id");
             long orderid = c.getInt(id_index);
             Log.d("id befor ", String.valueOf(orderid));
 
-            db.updateStatus(orderstatus ,orderid);
+            //db.updateStatus(orderstatus ,orderid);
 
             int name_index = c.getColumnIndex("drivername");
             int phone_index = c.getColumnIndex("driverphone");
@@ -90,7 +89,7 @@ public class PressOrderStatus extends AppCompatActivity {
                 }
             }
 
-
+/*
             if(!orderstatus.equals("Please Refresh")){
                 if (!status.equals(orderstatus)) {
                     Intent Refresh = new Intent(this, PressOrderStatus.class);
@@ -100,7 +99,7 @@ public class PressOrderStatus extends AppCompatActivity {
             }
             if(status.equals("Please Refresh")){
                status = db.OrderStatus();
-            }
+            }*/
 
                 Log.d("Status is ", status + "  ");
                 tv_orderStatus.setText(status);
@@ -108,6 +107,20 @@ public class PressOrderStatus extends AppCompatActivity {
         }
 
     }
+
+
+    public void onPause(){
+        super.onPause();
+
+        db.online=false;
+    }
+
+    public void onResume() {
+        super.onResume();
+
+        db.online=true;
+    }
+
 
 
     public void ifStatusdone(View v){

@@ -19,8 +19,8 @@ public class MainActivity extends AppCompatActivity {
 
         startService();
 
-        mockData = new MockData(getApplicationContext());
-        mockData.populateMockData();
+       // mockData = new MockData(getApplicationContext());
+       // mockData.populateMockData();
     }
 
     public void startService() {

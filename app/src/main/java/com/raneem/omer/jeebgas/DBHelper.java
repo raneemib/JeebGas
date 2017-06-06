@@ -25,6 +25,8 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final DatabaseReference mDataBaseRef = FirebaseDatabase.getInstance().getReference();
     private static DatabaseReference LastOrderDBRef;
     private static DatabaseReference LastOrderDBRefArchive;
+    private static final int DATABASE_VERSION = 8;
+
 
     //private static DatabaseReference StatusRef;
     private Map<String, Map<String, String>> order_hashmap;
@@ -33,7 +35,10 @@ public class DBHelper extends SQLiteOpenHelper {
     private static String  clientstatus=null;
     private static boolean isNull = true;
 
-    private static final int DATABASE_VERSION = 4;
+
+    public static boolean online;
+
+
     private static final String DATABASE_NAME = "jeebGas";
     private static final String TABLE_CLIENT = "Client";
     public static final String TABLE_ORDER = "_Order";
@@ -175,7 +180,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     public boolean insertClient(JeebGasClient jeebgasclient) {
-
+        Log.d("insertClient ","TEST DB");
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         try {
@@ -460,7 +465,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    public String OrderStatus(){    //TODO IF STATUS IS DONE REDIRECT !
+    //public String OrderStatus(){    //TODO IF STATUS IS DONE REDIRECT !
 
        /* String archiveREF="";
         Cursor c = getOrder();
@@ -469,7 +474,7 @@ public class DBHelper extends SQLiteOpenHelper {
             int ref_index = c.getColumnIndex("archive_ref");
             archiveREF = c.getString(ref_index);
             LastOrderDBRefArchive = archiveREF;
-        }*/
+        }*//*
         DatabaseReference DBrefArchive = FirebaseDatabase.getInstance().getReference();
         Cursor cursor = getOrder();
         if(cursor != null && cursor.moveToFirst()) {
@@ -505,9 +510,9 @@ public class DBHelper extends SQLiteOpenHelper {
         Log.e("InsertDriverID", e.toString());
         return "Please Refresh";
     }
-    }
+    }*/
 
-    public void updateStatus(String orderstatus,long id){
+    public void updateStatus(String orderstatus,String id){//,long id){
 
         SQLiteDatabase db = this.getWritableDatabase();
         String StatusOrder = orderstatus;
@@ -516,7 +521,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         ContentValues args = new ContentValues();
         args.put(STATUS,StatusOrder);
-        db.update(TABLE_ORDER, args, "_id" + "='" + id
+        db.update(TABLE_ORDER, args, "driverid" + "='" + id
                 + "'", null);
 
     }
@@ -551,5 +556,24 @@ public class DBHelper extends SQLiteOpenHelper {
         mDataBaseRef.child("FeedBack").child(OrderDriverID).child(ClientID).setValue(FBmap);
 
         return;
+    }
+
+    public String getDriverID(){
+        Cursor cursor = getOrder();
+        if(cursor != null && cursor.moveToFirst()) {
+            int DriverIDIndex = cursor.getColumnIndex("driverid");
+
+            String OrderDriverID = cursor.getString(DriverIDIndex);
+            return OrderDriverID;
+        }
+        return "None";
+    }
+
+    public String getClientIDstring(){
+        return ClientID;
+    }
+
+    public static boolean isOnline() {
+        return online;
     }
 }

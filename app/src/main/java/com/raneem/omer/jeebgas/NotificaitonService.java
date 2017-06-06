@@ -30,6 +30,7 @@ public class NotificaitonService extends Service {
     private NotificaitonService ns;
     private String curStatus;
     private Map<String, Map<String, String>> Order_Hashmap;
+    private boolean first = false;
 
 
     public NotificaitonService() {
@@ -86,7 +87,9 @@ public class NotificaitonService extends Service {
                     curStatus = (String) dataSnapshot.getValue();
                     Log.d("Service Status ", "  "+curStatus);
                     db.updateStatus(curStatus, finalOrderDriverID);
-                    SendNotificaitons(curStatus);
+                    if(first)
+                        SendNotificaitons(curStatus);
+                    first = true;
                     if(db.isOnline()){
                         Intent intent = new Intent(getApplicationContext(),PressOrderStatus.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

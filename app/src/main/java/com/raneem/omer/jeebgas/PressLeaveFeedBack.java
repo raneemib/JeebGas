@@ -105,6 +105,9 @@ public class PressLeaveFeedBack extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+
+            Toast.makeText(this, "Picture was Successfully taken", Toast.LENGTH_SHORT);
+
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             Log.d("photo bitmap ", String.valueOf(photo));
 
@@ -113,7 +116,6 @@ public class PressLeaveFeedBack extends AppCompatActivity {
             byte[] byteFormat = stream.toByteArray();
             encodedImage = Base64.encodeToString(byteFormat, Base64.NO_WRAP);
             Log.d("encodedImage Is ", encodedImage);
-            Toast.makeText(this, "Picture was Successfully taken", Toast.LENGTH_SHORT);
         }
     }
 

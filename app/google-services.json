@@ -19,7 +19,7 @@
           "client_type": 1,
           "android_info": {
             "package_name": "com.raneem.omer.jeepgas_driver",
-            "certificate_hash": "1CAA874BA1D9A5BC4E215F19F894024170BB9D9E"
+            "certificate_hash": "1caa874ba1d9a5bc4e215f19f894024170bb9d9e"
           }
         },
         {
@@ -59,11 +59,19 @@
       },
       "oauth_client": [
         {
+          "client_id": "834344599084-77dblg1ba43u4r6gejfcd114q6brt6k8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.raneem.omer.jeebgas",
+            "certificate_hash": "2dacfa7a398943499881fdd0b454b3f2780d7a7f"
+          }
+        },
+        {
           "client_id": "834344599084-qtmmb98s38a8alsia4cnhj8b7nhajila.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.raneem.omer.jeebgas",
-            "certificate_hash": "1CAA874BA1D9A5BC4E215F19F894024170BB9D9E"
+            "certificate_hash": "1caa874ba1d9a5bc4e215f19f894024170bb9d9e"
           }
         },
         {

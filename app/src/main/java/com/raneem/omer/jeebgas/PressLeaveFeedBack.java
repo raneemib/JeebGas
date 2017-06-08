@@ -1,27 +1,63 @@
 package com.raneem.omer.jeebgas;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 public class PressLeaveFeedBack extends AppCompatActivity {
 
     DBHelper db;
+    private Uri imageUri;
+    private File file;
+    private static final DatabaseReference mDataBaseRef = FirebaseDatabase.getInstance().getReference();
+    private StorageReference mStorageRef;
+    private String encodedImage="NaN";
+    private String driverID;
+    private String clientID;
+
+
+    protected static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1888;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_press_leave_feed_back);
 
+        mStorageRef = FirebaseStorage.getInstance().getReference();
         db = new DBHelper(getApplicationContext());
         Cursor c = db.getOrder();
 
@@ -51,7 +87,72 @@ public class PressLeaveFeedBack extends AppCompatActivity {
             }
 
         }
+
+        ImageButton photoButton = (ImageButton) this.findViewById(R.id.cameraBT);
+        photoButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v)
+            {
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+
+            }
+        });
     }
+
+
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            Log.d("photo bitmap ", String.valueOf(photo));
+
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            photo.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            byte[] byteFormat = stream.toByteArray();
+            encodedImage = Base64.encodeToString(byteFormat, Base64.NO_WRAP);
+            Log.d("encodedImage Is ", encodedImage);
+            Toast.makeText(this, "Picture was Successfully taken", Toast.LENGTH_SHORT);
+        }
+    }
+
+
+
+/*
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        Log.e("FIRST URI",imageUri.toString());
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+
+                //use imageUri here to access the image
+
+                Bundle extras = data.getExtras();
+
+                Log.e("URI",imageUri.toString());
+
+                Bitmap bmp = (Bitmap) extras.get("data");
+                // here you will get the image as bitmap
+
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                byte[] byteFormat = stream.toByteArray();
+                encodedImage = Base64.encodeToString(byteFormat, Base64.NO_WRAP);
+
+                Toast.makeText(this, "Picture was Successfully taken", Toast.LENGTH_SHORT);
+
+            }
+            else if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(this, "Picture was not taken", Toast.LENGTH_SHORT);
+            }
+        }
+    }
+*/
+
+
+
 
 
     public void ClickSend(View v) {
@@ -82,6 +183,17 @@ public class PressLeaveFeedBack extends AppCompatActivity {
 
 
             db.SaveFeedBack(name,area,deliver,repair,stars,comment);
+
+
+            driverID = db.getDriverID();
+            clientID = db.getClientIDstring();
+            mDataBaseRef.child("FeedBack").child(driverID).child(clientID).child("PHOTO").setValue(encodedImage);
+            /*
+            Map<String, String> FBmap = new HashMap<String, String>();
+            FBmap.put("PHOTO",encodedImage);
+            Log.d("uploading image!  ", encodedImage);
+            mDataBaseRef.child("FeedBack").child("-KlpoVFxjbh3iUEy0ajV").child("-KlxlRo952vX1SFT_-ai").setValue(FBmap);
+            */
         }
 
         db.empty_OrderTable();

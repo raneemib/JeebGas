@@ -11,8 +11,7 @@ android:paddingLeft="@dimen/activity_horizontal_margin"
 android:paddingRight="@dimen/activity_horizontal_margin"
 android:paddingTop="@dimen/activity_vertical_margin"
 tools:context="com.raneem.omer.jeebgas.MainActivity"
-    android:background="@drawable/appbackground">
-
+    android:background="#EDEDED">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,7 +31,7 @@ tools:context="com.raneem.omer.jeebgas.MainActivity"
                 android:scaleType="centerCrop"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="@drawable/jeebgasbuttontton"
+                android:background="@drawable/updatedjgbt"
                 android:id="@+id/imageButton"
                 android:padding="30dp"
                 android:onClick="ClickJeebGas"
@@ -63,7 +62,7 @@ tools:context="com.raneem.omer.jeebgas.MainActivity"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:onClick="ClickUpdateAccount"
-            android:textColor="#252E80"
+            android:textColor="#FFFFFF"
             android:textSize="25sp"
 
             android:background="@drawable/buttonshape"/>
@@ -79,7 +78,7 @@ tools:context="com.raneem.omer.jeebgas.MainActivity"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="17dp"
             android:onClick="ClickOrderStatus"
-            android:textColor="#252E80"
+            android:textColor="#FFFFFF"
             android:textSize="25sp"
 
             android:background="@drawable/buttonshape"/>

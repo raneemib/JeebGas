@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/wallet_highlighted_text_holo_dark">
+    android:background="#EDEDED">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -103,15 +104,15 @@
 
             <ImageButton
                 android:id="@+id/cameraBT"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_above="@+id/tvservicetype"
-                android:layout_marginEnd="14dp"
-                android:layout_marginRight="14dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
                 android:layout_toLeftOf="@+id/tvservicetype"
                 android:layout_toStartOf="@+id/tvservicetype"
                 android:layout_weight="1"
-                app:srcCompat="@android:drawable/ic_menu_camera" />
+                android:background="@drawable/camera"/>
         </RelativeLayout>
 
 
@@ -143,7 +144,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/buttonshape2"
+            android:background="@drawable/buttonshape"
             android:onClick="ClickSend"
             android:text="Send"
 

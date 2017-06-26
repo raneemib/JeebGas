@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.ContactsContract;
+import android.text.format.Time;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,7 +16,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -435,6 +438,16 @@ public class DBHelper extends SQLiteOpenHelper {
                 FBmap.put("DELIVER",Dstr);
                 FBmap.put("REPAIR",Rstr);
                 FBmap.put("STATUS","Pending");
+
+                Time now = new Time();
+                now.setToNow();
+
+
+                String time=String.valueOf(now);
+                time= time.substring(0,15);
+                time = time.replace("T","");
+                Log.d("timenow", time);
+                FBmap.put("TIME",time);
 
 
                 // Save the Order info + the Driver info the order is from

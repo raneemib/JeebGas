@@ -70,6 +70,8 @@ public class NotificaitonService extends Service {
         String ClientID = " ";
         ClientID = db.getClientIDstring();
 
+
+        //try catch ! needed
         DBrefArchive = FirebaseDatabase.getInstance().getReference().child("Archive").child(OrderDriverID).child(ClientID).child("STATUS");
 
 

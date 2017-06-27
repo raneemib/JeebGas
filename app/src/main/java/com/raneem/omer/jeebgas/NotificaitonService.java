@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.IBinder;
 import android.support.v7.app.NotificationCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -115,6 +116,8 @@ public class NotificaitonService extends Service {
 
     public void SendNotificaitons(String state){
 
+        if(TextUtils.isEmpty(state))
+            return;
 
         String ns = Context.NOTIFICATION_SERVICE;
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);

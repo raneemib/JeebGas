@@ -100,6 +100,7 @@ public class ChooseOrderActivity extends AppCompatActivity {
             TextView tv_companyName = (TextView) findViewById(R.id.tv_companyName);
             TextView tv_phone = (TextView) findViewById(R.id.tv_phone);
             TextView tv_price = (TextView) findViewById(R.id.tv_price);
+            TextView tv_bigprice = (TextView) findViewById(R.id.tv_bigprice);
             TextView tv_serviceType = (TextView) findViewById(R.id.tv_serviceType);
             TextView tv_workingArea = (TextView) findViewById(R.id.tv_workingArea);
             TextView tv_workingHours = (TextView) findViewById(R.id.tv_workingHours);
@@ -109,6 +110,7 @@ public class ChooseOrderActivity extends AppCompatActivity {
             tv_phone.setText(phone);
             //tv_price.setText("Small. " + gassmall + " - Big. " + gasbig);
             tv_price.setText(gassmall + " NIS");
+            tv_bigprice.setText(gasbig + " NIS");
             /*if (repair == 1) {
                 service += "Repair   ";
             }

@@ -100,7 +100,45 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Price:"
+                android:text="Price(Big):"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10px"
+                android:textStyle="bold"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:id="@+id/tv_bigprice"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10px"
+                android:textStyle="bold"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.0"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Price(Small):"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10px"
                 android:textStyle="bold"/>
@@ -122,6 +160,9 @@
 
         </RelativeLayout>
     </LinearLayout>
+
+
+
 
     <LinearLayout
         android:layout_width="match_parent"

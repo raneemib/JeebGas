@@ -230,19 +230,7 @@ public class DBHelper extends SQLiteOpenHelper {
     //**********************DRIVER********************************
 
 
-   /* public DBHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_DRIVER_TABLE);
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + CREATE_DRIVER_TABLE);
-    }*/
 
     public Cursor pointDriver() {
 
@@ -406,12 +394,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
                 //Save in firebase order/driver info
                 Map<String, String> FBmap = new HashMap<String, String>();
-                //FBmap.put("ClientID",ClientID);
-                //FBmap.put("DRIVERNAME",name);
-                //FBmap.put("DRIVERPHONE",phone);
-                //FBmap.put("WORKINGAREA",workingArea);
-                //FBmap.put("WORKINGHOURSFROM",hours_from);
-                //FBmap.put("WORKINGHOURSTILL",hours_till);
+
                 Cursor cursor = getClient();
                 if(cursor != null && cursor.moveToFirst()) {
                     int nameIndex = cursor.getColumnIndex("name");
@@ -457,11 +440,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 //this is like a back up of the last order to kno the path for deleting
                 LastOrderDBRef =FirebaseDatabase.getInstance().getReference().child("Orders").child(driverId).child(ClientID);
                 LastOrderDBRefArchive=FirebaseDatabase.getInstance().getReference().child("Archive").child(driverId).child(ClientID);
-                //StatusRef=FirebaseDatabase.getInstance().getReference().child("Orders").child(driverId);
 
-                /*contentValues.put(ORDERREF, LastOrderDBRef.toString());
-                contentValues.put(ARCHIVEREF, LastOrderDBRefArchive.toString());
-                db.insert(TABLE_ORDER, null, contentValues);*/
+
 
                 return true;
         } catch( Exception e) {
@@ -478,52 +458,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    //public String OrderStatus(){    //TODO IF STATUS IS DONE REDIRECT !
 
-       /* String archiveREF="";
-        Cursor c = getOrder();
-        if(c.moveToFirst()) {
-
-            int ref_index = c.getColumnIndex("archive_ref");
-            archiveREF = c.getString(ref_index);
-            LastOrderDBRefArchive = archiveREF;
-        }*//*
-        DatabaseReference DBrefArchive = FirebaseDatabase.getInstance().getReference();
-        Cursor cursor = getOrder();
-        if(cursor != null && cursor.moveToFirst()) {
-            int DriverIDIndex = cursor.getColumnIndex("driverid");
-
-            String OrderDriverID = cursor.getString(DriverIDIndex);
-            DBrefArchive = FirebaseDatabase.getInstance().getReference().child("Archive").child(OrderDriverID).child(ClientID).child("STATUS");
-
-        }
-
-        try {
-            //FireBase
-
-            final DatabaseReference firebaseRef_Order = DBrefArchive;
-            Log.d("After DB REF", "  ");
-            firebaseRef_Order.addValueEventListener(new com.google.firebase.database.ValueEventListener() {
-                @Override
-                public void onDataChange(com.google.firebase.database.DataSnapshot dataSnapshot) {
-                    Log.d("Snapshot", dataSnapshot.toString());
-
-                    clientstatus = (String) dataSnapshot.getValue();
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Log.d("Firebase Error", databaseError.toString());
-                }
-            });
-
-            Log.d("im Sending ",clientstatus);
-            return clientstatus;
-    } catch (Exception e) {
-        Log.e("InsertDriverID", e.toString());
-        return "Please Refresh";
-    }
-    }*/
 
     public void updateStatus(String orderstatus,String id){//,long id){
 

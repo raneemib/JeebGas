@@ -55,17 +55,7 @@ public class ChooseOrderActivity extends AppCompatActivity {
             db = new DBHelper(getApplicationContext());
             Cursor c = db.getDriver(id);
 
-            /*
-             + DRIVERNAME + " text, "
-            + DRIVERPHONE + " integer, "
-            + WORKINGAREA + " text, "
-            + WORKINGHOURS_FROM + " text, "
-            + WORKINGHOURS_TILL + " text, "
-            + GASPRICE_SMALL + " integer, "
-            + GASPRICE_BIG + " integer, "
-            + SERVICETYPE_DELIVER + " integer, "
-            + SERVICETYPE_REPAIR + " integer)";
-             */
+
             int driverid_index = c.getColumnIndex("driverid"); // doesnt display
             int name_index = c.getColumnIndex("drivername");
             int phone_index = c.getColumnIndex("driverphone");
@@ -111,13 +101,7 @@ public class ChooseOrderActivity extends AppCompatActivity {
             //tv_price.setText("Small. " + gassmall + " - Big. " + gasbig);
             tv_price.setText(gassmall + " NIS");
             tv_bigprice.setText(gasbig + " NIS");
-            /*if (repair == 1) {
-                service += "Repair   ";
-            }
-            if (deliver == 1) {
-                service += "Deliver";
-            }*/
-            //tv_serviceType.setText(service);
+
             String[] serviceArray = null;
             if (repair == 1 && deliver == 1){
                 serviceArray= new String[]{"Gas & Repair","Repair","Gas"};
@@ -140,14 +124,7 @@ public class ChooseOrderActivity extends AppCompatActivity {
         }
     }
 
-    /*private void prepareListData() {
-        expandservicetype = new ArrayList<String>();
 
-        // Adding child data
-        expandservicetype.add("Gas");
-        expandservicetype.add("Repair");
-        expandservicetype.add("Gas & Repair");
-    }*/
 
 
     public void ClickOrderNow(View v) {

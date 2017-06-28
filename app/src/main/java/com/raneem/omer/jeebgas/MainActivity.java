@@ -11,7 +11,6 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     //  MockData OBJECT
-    MockData mockData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,8 +18,6 @@ public class MainActivity extends AppCompatActivity {
         stopService();
         startService();
 
-       // mockData = new MockData(getApplicationContext());
-       // mockData.populateMockData();
     }
 
     public void startService() {
@@ -50,13 +47,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(updateaccountclicked);
     }
 
-   /* public void gotoMaps(View v) {
 
-        Log.e("gotoMaps: ", "Clicked");
-        // Navigate directly to maps activity
-        Intent mapIntent = new Intent(getApplicationContext(), MapsActivity.class);
-        startActivity(mapIntent);
-    }*/
    public void onDestroy() {
 
        super.onDestroy();

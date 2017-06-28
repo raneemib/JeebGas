@@ -121,37 +121,7 @@ public class PressLeaveFeedBack extends AppCompatActivity {
 
 
 
-/*
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        Log.e("FIRST URI",imageUri.toString());
-
-        if (resultCode == RESULT_OK) {
-            if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-
-                //use imageUri here to access the image
-
-                Bundle extras = data.getExtras();
-
-                Log.e("URI",imageUri.toString());
-
-                Bitmap bmp = (Bitmap) extras.get("data");
-                // here you will get the image as bitmap
-
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                byte[] byteFormat = stream.toByteArray();
-                encodedImage = Base64.encodeToString(byteFormat, Base64.NO_WRAP);
-
-                Toast.makeText(this, "Picture was Successfully taken", Toast.LENGTH_SHORT);
-
-            }
-            else if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(this, "Picture was not taken", Toast.LENGTH_SHORT);
-            }
-        }
-    }
-*/
 
 
 
@@ -190,12 +160,7 @@ public class PressLeaveFeedBack extends AppCompatActivity {
             driverID = db.getDriverID();
             clientID = db.getClientIDstring();
             mDataBaseRef.child("FeedBack").child(driverID).child(clientID).child("PHOTO").setValue(encodedImage);
-            /*
-            Map<String, String> FBmap = new HashMap<String, String>();
-            FBmap.put("PHOTO",encodedImage);
-            Log.d("uploading image!  ", encodedImage);
-            mDataBaseRef.child("FeedBack").child("-KlpoVFxjbh3iUEy0ajV").child("-KlxlRo952vX1SFT_-ai").setValue(FBmap);
-            */
+
         }
 
         db.empty_OrderTable();

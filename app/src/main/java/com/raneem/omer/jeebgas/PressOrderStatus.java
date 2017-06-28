@@ -89,18 +89,6 @@ public class PressOrderStatus extends AppCompatActivity {
                 }
             }
 
-/*
-            if(!orderstatus.equals("Please Refresh")){
-                if (!status.equals(orderstatus)) {
-                    Intent Refresh = new Intent(this, PressOrderStatus.class);
-                    startActivity(Refresh);
-                    finish();
-                }
-            }
-            if(status.equals("Please Refresh")){
-               status = db.OrderStatus();
-            }*/
-
                 Log.d("Status is ", status + "  ");
                 tv_orderStatus.setText(status);
 
